@@ -1,0 +1,31 @@
+#signupform{
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 1px;
+    width: 400px;
+    margin: 0 auto;
+}
+
+#field{
+    color: aliceblue;
+    padding: 7px;
+    
+}
+
+input{
+    height: 25px;
+    border-radius: 7px;
+    border: none;
+    margin-top: 5px;
+}
+
+#create{
+    background-color: #3498db;
+    color: rgb(0, 0, 0);
+    height: 35px;
+    align-items: center;
+    border-radius: 100px;
+    border-color: rgb(254, 254, 254);
+    font-size: medium;
+    border-width: 0.2px;
+}

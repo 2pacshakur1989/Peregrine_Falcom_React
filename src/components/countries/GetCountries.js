@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 
-const GetCountries = ({onCountrySelect}) =>{
+const GetCountries = ({onCountrySelect , selectedCountryId}) =>{
     const [countries, setCountry] = useState([])
 
 
@@ -22,7 +22,7 @@ useEffect(()=>{
   return(
     <div>
     <label htmlFor="country-select"></label>
-      <select id="country-select" onChange={handleCountrySelect}>
+      <select id="country-select" value={selectedCountryId} onChange={handleCountrySelect}>
       <option value="">Select country</option>
         {countries.map((country) => (
           <option key={country.id} value={country.id}>

@@ -1,19 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import GetCountries from '../countries/GetCountries';
 import GetAirlines from '../airlines/GetAirlines';
+import './Flights.css';
 
 const FlightSearchForm = () => {
+ 
   const [selectedOriginCountry, setSelectedOriginCountry] = useState('');
   const [selectedDestinationCountry, setSelectedDestinationCountry] = useState('');
   const [selectedAirlineCompany, setSelectedAirlineCompany] = useState('');
   const [selectedDepartureTime, setSelectedDepartureTime] = useState('');
   const [selectedLandingTime, setSelectedLandingTime] = useState('');
   const [flights, setFlights] = useState([]);
-
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isSwitched, setIsSwitched] = useState(null);
+  
   const handleSubmit = async (event) => {
-    event.preventDefault();
-
+ 
     event.preventDefault();
     if (
       !selectedOriginCountry &&
@@ -22,18 +25,15 @@ const FlightSearchForm = () => {
       !selectedDepartureTime &&
       !selectedLandingTime
     ) {
-      alert('Please select at least one search parameter');
+      alert('Please select BOTH departure country and destination country');
       return;
     }
-
     try {
       const response = await axios.get(
         `http://localhost:8000/api/flights/?origin_country_id=${selectedOriginCountry}&destination_country_id=${selectedDestinationCountry}&airline_company_id=${selectedAirlineCompany}&departure_time=${selectedDepartureTime}&landing_time=${selectedLandingTime}`
       );
       setFlights(response.data);
-      // if (response.data.length === 0) {
-      //   alert('No flights found');
-      // }
+      setIsLoaded(true);
     } catch (error) {
       console.error(error);
     }
@@ -41,10 +41,12 @@ const FlightSearchForm = () => {
 
   const handleOriginCountrySelect = (countryId) => {
     setSelectedOriginCountry(countryId);
+    setIsSwitched(false);
   };
 
   const handleDestinationCountrySelect = (countryId) => {
     setSelectedDestinationCountry(countryId);
+    setIsSwitched(false);
   };
 
   const handleAirlineCompanySelect = (airlineCompanyId) => {
@@ -59,51 +61,96 @@ const FlightSearchForm = () => {
     setSelectedLandingTime(event.target.value);
   };
 
+  const handleSwitch = () => {
+    setIsSwitched(!isSwitched);
+    setSelectedOriginCountry(selectedDestinationCountry);
+    setSelectedDestinationCountry(selectedOriginCountry);
+    console.log("After switch:", selectedOriginCountry, selectedDestinationCountry);
+  };
+
+  const isButtonDisabled = !selectedOriginCountry || !selectedDestinationCountry;
+
+
+  const clearForm = () => {
+    document.getElementById("SearchForm").reset();
+    setSelectedOriginCountry("");
+    setSelectedDestinationCountry("");
+    setSelectedAirlineCompany("");
+    setSelectedDepartureTime("");
+    setSelectedLandingTime("");
+  }
+  
   return (
-    <div>
-    
-      <form onSubmit={handleSubmit}>
-        <label>
-          From
-          <GetCountries onCountrySelect={handleOriginCountrySelect} />
+    <div> 
+      <form id='SearchForm'  onSubmit={handleSubmit}>
+
+        <label id='origin' >
+         <span>From</span>
+          <GetCountries onCountrySelect={handleOriginCountrySelect}/>
           <input type="hidden" value={selectedOriginCountry} onChange={(e) => setSelectedOriginCountry(e.target.value)} />
         </label>
-        <label>
-          To
-          <GetCountries onCountrySelect={handleDestinationCountrySelect} />
+        <br/>
+
+        <label id='switch'>
+        <button id='switch' type="button" onClick={handleSwitch} disabled={isButtonDisabled}>
+          {isSwitched?"<==" : "==>"}</button></label>
+          
+        <label id='destination'>
+          <span>To</span>
+          <GetCountries 
+          onCountrySelect={handleDestinationCountrySelect} />
           <input type="hidden" value={selectedDestinationCountry} onChange={(e) => setSelectedDestinationCountry(e.target.value)} />
         </label>
-        <label>
-          Airline Company Id:
+        <br/>
+
+        <label id='airline'>
+          <span>Airline</span>
           <GetAirlines onAirlineCompanySelect={handleAirlineCompanySelect}/>
-          <input type="hidden" value={selectedAirlineCompany} onChange={(e) => setSelectedAirlineCompany(e.target.value)} />
+          <input  type="hidden" value={selectedAirlineCompany} onChange={(e) => setSelectedAirlineCompany(e.target.value)} />
         </label>
+        <br/>
+        
+        <label >
+        <span>Depart</span>
+        <br/>
+          <input id='departure' type="datetime-local" value={selectedDepartureTime} onChange={handleDepartureTimeChange} />   
+        </label>
+        <br/>
+
         <label>
-          Departure Time:
-          <input type="datetime-local" value={selectedDepartureTime} onChange={handleDepartureTimeChange} />
+        <span>Land</span>
+        <br/>
+          <input id='landing' type="datetime-local" value={selectedLandingTime} onChange={handleLandingTimeChange} />
         </label>
-        <label>
-          Landing Time:
-          <input type="datetime-local" value={selectedLandingTime} onChange={handleLandingTimeChange} />
-        </label>
-        <button type="submit">Search</button>
+        <br/>
+
+        <button id='search' type="submit">Search</button>
+        <button id='clear' type="button" onClick={clearForm}>Clear</button>
+
       </form>
+
       <ul>
-  {flights.length > 0 ? (
+{isLoaded ? (
+  
+  flights.length > 0 ? (
+    
     flights.map((flight) => (
-      <div key={flight.id}>
-        <p>{flight.id}</p>
-        <p>{flight.airline_company_name}</p>
-        <p>{flight.origin_country_name}</p>
-        <p>{flight.destination_country_name}</p>
-        <p>{flight.departure_time}</p>
-        <p>{flight.landing_time}</p>
-        <p>{flight.remaining_tickets}</p>
+      <div key={flight.id} className="flight-result">
+        <p id='A'>FlighID {flight.id}</p>
+        <p id='A'>{flight.origin_country_name}</p>
+        <p id='A'>{flight.destination_country_name}</p>
+        <p id='A'>{flight.airline_company_name}</p>
+        <p id='A'>{flight.departure_time}</p>
+        <p id='A'>{flight.landing_time}</p>
+        <p id='A'>Tickets - {flight.remaining_tickets}</p>
       </div>
     ))
   ) : (
-    <p>No flights found</p>
-  )}
+    <p id='noflights'>No flights found</p>
+  )
+) : (
+  <div><p></p></div>
+)}
 </ul>
     </div>
   );

@@ -21,9 +21,10 @@ const GetAirlines = ({ onAirlineCompanySelect }) => {
 
   return (
     <div>
-      <label htmlFor="airline-company-select">Select an airline company:</label>
-      <select id="airline-company-select" onChange={handleAirlineCompanySelect}>
-        {airlines.map((airlinecompany) => (
+      <label htmlFor="airline-company-select"></label>
+      <select id="airline-company-select" onChange={handleAirlineCompanySelect} defaultValue="Select airline">
+      <option value="">Select airline</option>
+        {airlines.map((airlinecompany) => (  
           <option key={airlinecompany.id} value={airlinecompany.id}>
             {airlinecompany.name}
           </option>

@@ -6,7 +6,8 @@ export default function General() {
   return (
     
 <div style={{ position: 'relative' }}>
-  <Navbar />
+  <Navbar/>
+  
   <br />
   
   <div id='icon' className="icon" style={{ position: 'absolute', top: 60, left: 0 }}></div> 
