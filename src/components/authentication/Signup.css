@@ -29,3 +29,8 @@ input{
     font-size: medium;
     border-width: 0.2px;
 }
+
+
+#error{
+    color: aliceblue;
+}
