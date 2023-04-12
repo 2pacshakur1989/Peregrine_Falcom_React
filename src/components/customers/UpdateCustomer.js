@@ -3,12 +3,11 @@ import SignUp from '../authentication/SignUp';
 import { AuthContext } from "../authentication/AuthContext";
 import Cookies from 'js-cookie';
 
-function Customer() {
+function UpdateCustomer() {
   const [customer, setCustomer] = useState({});
   const [user, setUser] = useState({});
-  const [showUpdateForm, setShowUpdateForm] = useState(false);
+  // const [showUpdateForm, setShowUpdateForm] = useState(false);
   const {payloadData} = useContext(AuthContext);
-  // console.log(payloadData.username)
 
   useEffect(() => {
     // make API request to get customer data
@@ -29,21 +28,26 @@ function Customer() {
       });
   }, []);
 
-  const handleUpdateClick = () => {
-    setShowUpdateForm(true);
-  }
+  // const handleUpdateClick = () => {
+  //   setShowUpdateForm(true);
+  // }
 
   return (
     <div>
-
-      {showUpdateForm && (
-        <SignUp first_name={customer.first_name}
-          isUpdate={true}
-          customer={customer}
+        {console.log(customer)}
+        {console.log(user)}
+        <SignUp 
+        username={user.username} 
+        email={user.email}
+        first_name={customer.first_name}
+        last_name={customer.last_name}
+        address={customer.address}
+        phone_no={customer.phone_no}
+        credit_card_no={customer.credit_card_no}
         />
-      )}
+      
     </div>
   );
 }
 
-export default Customer;
+export default UpdateCustomer;

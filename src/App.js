@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from './components/authentication/Login';
 import SignUp from './components/authentication/SignUp';
 import FlightSearchForm from './components/flights/FlightSearchForm';
-import Customer from './components/customers/Customer';
+import UpdateCustomer from "./components/customers/UpdateCustomer";
+import Navbar from "./components/general/Navbar";
 
 import './App.css';
 
@@ -17,11 +18,12 @@ function App() {
     <div className="App">
       <Router>
           <Routes>
-            <Route path="/" element={<General />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<General />}/>
+            <Route element={<Navbar />}/>
+            <Route path="/login" element={<Login />}/>
             <Route path="/signup" element={<SignUp />} />
             <Route path="/flights" element={<FlightSearchForm />} />
-            <Route path="/customer" element={<Customer />} />
+            <Route path="/customer" element={<UpdateCustomer />} />
             {/* <Route path="/" element={<Logout />} /> */}
           </Routes>
         </Router>

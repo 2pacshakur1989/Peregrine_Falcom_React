@@ -31,6 +31,19 @@ input{
 }
 
 
+/* #error{
+    font-size: larger;
+    color: aliceblue;
+} */
+
 #error{
+    font-size: large;
+    color: aliceblue;
+}
+
+
+#success{
+    font-size: large;
+    font-weight: bolder;
     color: aliceblue;
 }
