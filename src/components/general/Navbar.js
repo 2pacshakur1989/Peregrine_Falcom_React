@@ -3,13 +3,14 @@ import './Navbar.css';
 import Login from "../authentication/Login";
 import SignUp from "../authentication/SignUp";
 import FlightSearchForm from "../flights/FlightSearchForm";
-import UpdateCustomer from "../customers/UpdateCustomer";
 import { AuthContext } from "../authentication/AuthContext";
 import { Admin } from "../admins/Admin";
 import { Airline } from "../airlines/Airline";
 import Cookies from "js-cookie";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Home } from "./Home";
+import CustomerProfile from "../customers/CustomerProfile";
+import MyTickets from "../customers/MyTickets";
 
 const Navbar = () => {
     const [LoginLink, setLogin] = useState(false);
@@ -18,8 +19,14 @@ const Navbar = () => {
     const [GetAllFlightsLink, setFlights] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false); // Add a new state variable
     const [isLoggegOut, setLoggedOut] = useState(false);
-    const {user, logout, payloadData} = useContext(AuthContext);
+    const {user, logout} = useContext(AuthContext);
     const [showDropdown, setShowDropdown] = useState(false);
+    const [showProfile, setShowProfile] = useState(false);
+    const {payloadData} = useContext(AuthContext);
+    const {setRealodUpdatedData} = useContext(AuthContext);
+    const history = useNavigate();
+    
+    // console.log(payloadData);
 
     const handleLogout = () => {
         logout();
@@ -56,12 +63,25 @@ const Navbar = () => {
     const handleHome = (event) => {
       event.preventDefault();
       setActiveComponent("/");
-    }
+    };
 
     const handleCustomer = (event) => {
       event.preventDefault();
       setShowDropdown(!showDropdown);
+    };
+
+    const handleProfileClick = (event) => {
+      event.preventDefault();
+      setActiveComponent("customerprofile");
+      setRealodUpdatedData(true);
+    };
+
+    const handleTicketsClick = (event) => {
+      event.preventDefault();
+      setActiveComponent("tickets");
     }
+
+
     
     return (
         <div>
@@ -72,8 +92,7 @@ const Navbar = () => {
           <Link id="main" to="/about" onClick={handleHome}>About us</Link>        
           <Link id="main" to="/flights" onClick={handleAllFlightsClick}>Flights</Link>
           <Link id="main" to="/airlines">Airlines</Link>
-          {user && (
-           
+          {user && ( 
              <p id="logoutP"> <Link id="Logout" href="/" onClick={handleLogout}>
                 Logout
               </Link></p>
@@ -90,8 +109,8 @@ const Navbar = () => {
             <div className="dropdown">
               {showDropdown && (
                 <div id="dropdown" className="dropdown-content">
-                  <Link id="drop" to="/">Profile</Link>
-                  <Link id="drop" to="/">Tickets</Link>
+                  <Link id="drop" to="/customerprofile" onClick={handleProfileClick}>Profile</Link>
+                  <Link id="drop" to="/tickets" onClick={handleTicketsClick}>Tickets</Link>
                 </div>
               )}
             </div>
@@ -99,7 +118,7 @@ const Navbar = () => {
           )}
 
           {/* Display the Admin link if the user is an admin */}
-          {/* {user && payloadData && String(payloadData.roles) === "customer" && (
+          {user && payloadData && String(payloadData.roles) === "admin" && (
             <div className="dropdown">
               {showDropdown && (
                 <div id="dropdown" className="dropdown-content">
@@ -108,23 +127,15 @@ const Navbar = () => {
                 </div>
               )}
             </div>
-          )} */}
+          )}
 
           {/* Display the Airline link if the user is an airline */}
           {user && payloadData && String(payloadData.roles) === 'airline' && (
             <p id="profileP">
-               <Link id="profile" to="{payloadData.username">{payloadData.username}</Link>
+               <Link id="profile" to="/">{payloadData.username}</Link>
             </p>
           )}
 
-          {/* Display the Logout link if the user is logged in */}
-          {/* {user && (
-            <p id="mainP">
-              <Link id="main" href="/" onClick={handleLogout}>
-                Logout
-              </Link>
-            </p>
-          )} */}
 
           {/* Display the Login and Signup links if the user is not logged in */}
           {!user && (
@@ -148,15 +159,11 @@ const Navbar = () => {
             
             {/* Conditionally render the components based on the value of isLoggedIn */}
             {activeComponent === "flights" && <FlightSearchForm/>}
+            {activeComponent === "tickets" && <MyTickets clicked="clicked"/>}
             {activeComponent === "signup" && <SignUp/>}
             {activeComponent === "/" && <Home/>}
             {activeComponent === "login" && <Login handleLoginSuccess={handleLoginSuccess}/>}
-            {/* {activeComponent === "customer-dropdown" && (
-  <select>
-    <option value="">Select an option</option>
-  </select>
-)} */}
-
+            {activeComponent === "customerprofile" && <CustomerProfile/>}
             {isLoggedIn && payloadData && String(payloadData.roles) === "admin" && <Admin />}
             {isLoggedIn && payloadData && String(payloadData.roles) === "airline" && <Airline />}
 

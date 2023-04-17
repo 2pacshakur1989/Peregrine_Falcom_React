@@ -180,9 +180,8 @@ export default function SignUp() {
     .catch(error => {
       console.log(error);
     });
-    
- 
   };
+  
   const handleUserNameChange = (event) => {
       setUserName(event.target.value);
     };

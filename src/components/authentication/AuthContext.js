@@ -1,139 +1,431 @@
-// import React, { createContext, useContext, useState } from "react";
+// import React, { createContext, useState } from 'react';
+// import jwt_decode from 'jwt-decode';
+// import Cookies from 'js-cookie';
 
-// const AuthContext = createContext();
+// export const AuthContext = createContext({
+//   user: null,
+//   login: () => {},
+//   logout: () => {},
+  
+// });
 
-// export const useAuth = () => useContext(AuthContext);
-
-// export const AuthProvider = ({ children }) => {
+// const AuthProvider = ({ children }) => {
 //   const [user, setUser] = useState(null);
+//   const [payloadData, setPayloadData] = useState(null);
 
-//   const login = (user) => {
-//     console.log("User logged in:", user);
-//     setUser(user);
+//   const login = (token) => {
+
+//     const decodedToken = jwt_decode(token);
+//     console.log(decodedToken)
+//     setUser(decodedToken);
+//     Cookies.set('token', token);
+//     localStorage.setItem('token', token);
+//   };
+
+//   const storePayloadData = (payload) => {
+//     // console.log(payload);
+//     setPayloadData(payload);
 //   };
 
 //   const logout = () => {
-//     setUser(null);
-//   };
-
-//   const value = {
-//     user,
-//     login,
-//     logout
-//   };
-
-//   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-// };
-
-
-// import React, { createContext, useState, useEffect, } from 'react';
-
-// export const AuthContext = createContext('');
-
-// export default function AuthProvider({ children }) {
-//   const [user, setUser] = useState(null);
-//   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-//   useEffect(() => {
-//     const token = localStorage.getItem('token');
-
-//     if (token) {
-//       const userData = JSON.parse(atob(token.split('.')[1]));
-//       setUser(userData);
-//       setIsLoggedIn(true);
-//     }
-//   }, []);
-
-//   const handleLogin = (user) => {
-//     setUser(user);
-//     setIsLoggedIn(true);
-//   };
-
-//   const handleLogout = () => {
-//     setUser(null);
-//     setIsLoggedIn(false);
-//     localStorage.removeItem('token');
-//   };
-
-//   const value = {
-//     user,
-//     isLoggedIn,
-//     handleLogin,
-//     handleLogout
+//     fetch('http://localhost:8000/api/logout/', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//         Authorization: `Bearer ${Cookies.get('token')}`,
+//       },
+//     })
+//       .then((response) => {
+//         if (!response.ok) {
+//           throw new Error('Error logging out');
+//         }
+//         setUser(null);
+//         setPayloadData(null);
+//         window.location.href = '/';
+//       })
+//       .catch((error) => {
+//         console.error(error);
+//       });
 //   };
 
 //   return (
-//     <AuthContext.Provider value={value}>
+//     <AuthContext.Provider value={{ user, login, logout, storePayloadData, payloadData }}>
 //       {children}
 //     </AuthContext.Provider>
 //   );
-// }
+// };
+
+// export default AuthProvider;
 
 
-// import { createContext } from 'react';
 
-// export const AuthContext = createContext ({
-//   isLoggedIn: false,
+
+
+// import React, { createContext, useState } from 'react';
+// import jwt_decode from 'jwt-decode';
+// import Cookies from 'js-cookie';
+
+// export const AuthContext = createContext({
+//   user: null,
 //   login: () => {},
-//   logout: () => {}
-// })
+//   logout: () => {},
+  
+// });
 
-// import { createContext, useReducer } from "react";
+// const AuthProvider = ({ children }) => {
+//   const [user, setUser] = useState(() => {
+//     const storedUser = localStorage.getItem('user');
+//     return storedUser ? JSON.parse(storedUser) : null;
+//   });
+//   const [payloadData, setPayloadData] = useState(null);
 
-// export const AuthContext = createContext()
+//   const login = (token) => {
 
-// export const authReducer = (state, action) => {
-//   switch (action.type) {
-//     case 'LOGIN':
-//       return { user:action.payload }
-//     case 'LOGOUT':
-//       return { user: null}
-//     default :
-//       return state
-//   }
-// }
+//     const decodedToken = jwt_decode(token);
+//     console.log(decodedToken);
+//     setUser(decodedToken);
+//     Cookies.set('token', token);
+//     localStorage.setItem('token', token);
+//     localStorage.setItem('user', JSON.stringify(decodedToken));
+//   };
 
-// export const AuthContextProvider = ({ children }) => {
-//   const [state,dispatch] = useReducer(authReducer, {
-//     user: null
-//   })
-//   console.log('AuthContext state: ', state)
-
-//   return (
-//     <AuthContext.Provider value={{...state, dispatch}}>
-//       { children }
-//     </AuthContext.Provider>
-//   )
-// }
-
-
-
-// import { createContext, useState } from 'react';
-
-// export const AuthContext = createContext();
-
-// export const AuthProvider = ({ children }) => {
-//   const [ setUser] = useState(null);
-//   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-//   const login = (userData) => {
-//     setUser(userData);
-//     setIsLoggedIn(true);
+//   const storePayloadData = (payload) => {
+//     // console.log(payload);
+//     setPayloadData(payload);
 //   };
 
 //   const logout = () => {
-//     setUser(null);
-//     setIsLoggedIn(false);
+//     fetch('http://localhost:8000/api/logout/', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//         Authorization: `Bearer ${Cookies.get('token')}`,
+//       },
+//     })
+//       .then((response) => {
+//         if (!response.ok) {
+//           throw new Error('Error logging out');
+//         }
+//         localStorage.removeItem('token');
+//         localStorage.removeItem('user');
+//         setPayloadData(null);
+//         window.location.href = '/';
+//       })
+//       .catch((error) => {
+//         console.error(error);
+//       });
 //   };
 
-//   const value = {  isLoggedIn, login, logout };
-
-//   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+//   return (
+//     <AuthContext.Provider value={{ user, login, logout, storePayloadData, payloadData }}>
+//       {children}
+//     </AuthContext.Provider>
+//   );
 // };
 
+// export default AuthProvider;
 
 
-import React, { createContext, useState } from 'react';
+
+
+
+
+
+// import React, { createContext, useState } from 'react';
+// import jwt_decode from 'jwt-decode';
+// import Cookies from 'js-cookie';
+
+// export const AuthContext = createContext({
+//   user: null,
+//   login: () => {},
+//   logout: () => {},
+// });
+
+// const AuthProvider = ({ children }) => {
+//   const [user, setUser] = useState(() => {
+//     const storedToken = Cookies.get('token');
+//     if (storedToken) {
+//       const decodedToken = jwt_decode(storedToken);
+//       return decodedToken;
+//     } else {
+//       return null;
+//     }
+//   });
+//   const [payloadData, setPayloadData] = useState(null);
+
+//   const login = (token) => {
+//     const decodedToken = jwt_decode(token);
+//     console.log(decodedToken);
+//     setUser(decodedToken);
+//     Cookies.set('token', token);
+//     localStorage.setItem('token', token);
+//     localStorage.setItem('user', JSON.stringify(decodedToken));
+//   };
+
+//   const storePayloadData = (payload) => {
+//     // console.log(payload);
+//     setPayloadData(payload);
+//   };
+
+//   const logout = () => {
+//     fetch('http://localhost:8000/api/logout/', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//         Authorization: `Bearer ${Cookies.get('token')}`,
+//       },
+//     })
+//       .then((response) => {
+//         if (!response.ok) {
+//           throw new Error('Error logging out');
+//         }
+//         localStorage.removeItem('token');
+//         localStorage.removeItem('user');
+//         setPayloadData(null);
+//         window.location.href = '/';
+//       })
+//       .catch((error) => {
+//         console.error(error);
+//       });
+//   };
+
+//   return (
+//     <AuthContext.Provider value={{ user, login, logout, storePayloadData, payloadData }}>
+//       {children}
+//     </AuthContext.Provider>
+//   );
+// };
+
+// export default AuthProvider;
+
+
+
+// import React, { createContext, useState, useEffect } from 'react';
+// import jwt_decode from 'jwt-decode';
+// import Cookies from 'js-cookie';
+
+// export const AuthContext = createContext({
+//   user: null,
+//   login: () => {},
+//   logout: () => {},
+// });
+
+// const AuthProvider = ({ children }) => {
+//   const [user, setUser] = useState(() => {
+//     const storedUser = localStorage.getItem('user');
+//     return storedUser ? JSON.parse(storedUser) : null;
+//   });
+//   const [payloadData, setPayloadData] = useState(null);
+//   const [isLoading, setIsLoading] = useState(true);
+
+//   useEffect(() => {
+//     const token = Cookies.get('token');
+//     if (token) {
+//       const decodedToken = jwt_decode(token);
+//       setUser(decodedToken);
+//       setPayloadData(decodedToken);
+//     }
+//     setIsLoading(false);
+//   }, []);
+
+//   const login = (token) => {
+//     const decodedToken = jwt_decode(token);
+//     setUser(decodedToken);
+//     Cookies.set('token', token);
+//     localStorage.setItem('token', token);
+//     localStorage.setItem('user', JSON.stringify(decodedToken));
+//   };
+
+//   const storePayloadData = (payload) => {
+//     setPayloadData(payload);
+//   };
+
+//   const logout = () => {
+//     fetch('http://localhost:8000/api/logout/', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//         Authorization: `Bearer ${Cookies.get('token')}`,
+//       },
+//     })
+//       .then((response) => {
+//         if (!response.ok) {
+//           throw new Error('Error logging out');
+//         }
+//         localStorage.removeItem('token');
+//         localStorage.removeItem('user');
+//         setPayloadData(null);
+//         window.location.href = '/';
+//       })
+//       .catch((error) => {
+//         console.error(error);
+//       });
+//   };
+
+//   if (isLoading) {
+//     // Render a loading spinner or any other loading indicator
+//     return <div>Loading...</div>;
+//   }
+
+//   return (
+//     <AuthContext.Provider value={{ user, login, logout, storePayloadData, payloadData }}>
+//       {children}
+//     </AuthContext.Provider>
+//   );
+// };
+
+// export default AuthProvider;
+
+
+
+
+// import React, { createContext, useState, useEffect } from 'react';
+// import jwt_decode from 'jwt-decode';
+// import Cookies from 'js-cookie';
+
+// export const AuthContext = createContext({
+//   user: null,
+//   login: () => {},
+//   logout: () => {},
+// });
+
+// const AuthProvider = ({ children }) => {
+//   const [user, setUser] = useState(null);
+//   const [payloadData, setPayloadData] = useState(null);
+
+//   const storePayloadData = (payload) => {
+//     setPayloadData(payload);
+//     localStorage.setItem('payload',JSON.stringify(payload));
+//   };
+
+//   useEffect(() => {
+//     const storedUser = localStorage.getItem('user');
+//     if (storedUser) {
+//       setUser(JSON.parse(storedUser));
+//     }
+//   }, []);
+
+//   // console.log(payloadData);
+//   const login = (token) => {
+
+   
+//     const decodedToken = jwt_decode(token);
+//     setUser(decodedToken);
+//     Cookies.set('token', token);
+//     localStorage.setItem('token', token);
+//     localStorage.setItem('user', JSON.stringify(decodedToken));
+//   };
+
+//   const logout = () => {
+//     fetch('http://localhost:8000/api/logout/', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//         Authorization: `Bearer ${Cookies.get('token')}`,
+//       },
+//     })
+//       .then((response) => {
+//         if (!response.ok) {
+//           throw new Error('Error logging out');
+//         }
+//         localStorage.removeItem('token');
+//         localStorage.removeItem('user');
+//         localStorage.removeItem('payload')
+//         setPayloadData(null);
+//         setUser(null);
+//         window.location.href = '/';
+//       })
+//       .catch((error) => {
+//         console.error(error);
+//       });
+//   };
+
+//   return (
+//     <AuthContext.Provider value={{ user, login, logout, storePayloadData, payloadData}}>
+//       {children}
+//     </AuthContext.Provider>
+//   );
+// };
+
+// export default AuthProvider;
+
+
+
+
+// import React, { createContext, useState, useEffect } from 'react';
+// import jwt_decode from 'jwt-decode';
+// import Cookies from 'js-cookie';
+
+// export const AuthContext = createContext({
+//   user: null,
+//   login: () => {},
+//   logout: () => {},
+// });
+
+// const AuthProvider = ({ children }) => {
+//   const [user, setUser] = useState(null);
+//   const [payloadData, setPayloadData] = useState(null);
+
+//   const storePayloadData = (payload) => {
+//     setPayloadData(payload);
+//     localStorage.setItem('payload',JSON.stringify(payload));
+//   };
+
+//   useEffect(() => {
+//     const storedUser = localStorage.getItem('user');
+//     if (storedUser) {
+//       setUser(JSON.parse(storedUser));
+//     }
+//   }, []);
+
+//   // console.log(payloadData);
+//   const login = (token) => {
+
+   
+//     const decodedToken = jwt_decode(token);
+//     setUser(decodedToken);
+//     Cookies.set('token', token);
+//     localStorage.setItem('token', token);
+//     localStorage.setItem('user', JSON.stringify(decodedToken));
+//   };
+
+//   const logout = () => {
+//     fetch('http://localhost:8000/api/logout/', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//         Authorization: `Bearer ${Cookies.get('token')}`,
+//       },
+//     })
+//       .then((response) => {
+//         if (!response.ok) {
+//           throw new Error('Error logging out');
+//         }
+//         localStorage.removeItem('token');
+//         localStorage.removeItem('user');
+//         localStorage.removeItem('payload')
+//         setPayloadData(null);
+//         setUser(null);
+//         window.location.href = '/';
+//       })
+//       .catch((error) => {
+//         console.error(error);
+//       });
+//   };
+
+//   return (
+//     <AuthContext.Provider value={{ user, login, logout, storePayloadData, payloadData}}>
+//       {children}
+//     </AuthContext.Provider>
+//   );
+// };
+
+// export default AuthProvider;
+
+
+
+
+import React, { createContext, useState, useEffect } from 'react';
 import jwt_decode from 'jwt-decode';
 import Cookies from 'js-cookie';
 
@@ -141,27 +433,41 @@ export const AuthContext = createContext({
   user: null,
   login: () => {},
   logout: () => {},
-  
 });
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [payloadData, setPayloadData] = useState(null);
+  const [reloadUpdatedData, setRealodUpdatedData] = useState(false);
 
-  const login = (token) => {
-    const decodedToken = jwt_decode(token);
-    console.log(decodedToken)
-    setUser(decodedToken);
-    Cookies.set('token', token);
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+
+    const storedPayloadData = localStorage.getItem('payload');
+    if (storedPayloadData) {
+      setPayloadData(JSON.parse(storedPayloadData));
+    }
+  }, []);
+
+  const storePayloadData = async (payload) => {
+    setPayloadData(payload);
+    localStorage.setItem('payload', JSON.stringify(payload));
   };
 
-  const storePayloadData = (payload) => {
-    // console.log(payload);
-    setPayloadData(payload);
+
+  const login = async (token, payload) => {
+    const decodedToken = jwt_decode(token);
+    setUser(decodedToken);
+    Cookies.set('token', token);
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(decodedToken));
+    await storePayloadData(payload);
   };
 
   const logout = () => {
-    console.log('token')
     fetch('http://localhost:8000/api/logout/', {
       method: 'POST',
       headers: {
@@ -173,11 +479,12 @@ const AuthProvider = ({ children }) => {
         if (!response.ok) {
           throw new Error('Error logging out');
         }
-        setUser(null);
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        localStorage.removeItem('payload')
         setPayloadData(null);
-        // console.log("dataremoved")
-        // Cookies.remove('token')
-        // console.log('token')
+        setUser(null);
+        window.location.href = '/';
       })
       .catch((error) => {
         console.error(error);
@@ -185,7 +492,7 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, storePayloadData, payloadData }}>
+    <AuthContext.Provider value={{ user, login, logout, storePayloadData, payloadData, reloadUpdatedData, setRealodUpdatedData}}>
       {children}
     </AuthContext.Provider>
   );

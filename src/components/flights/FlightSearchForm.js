@@ -3,6 +3,7 @@ import axios from 'axios';
 import GetCountries from '../countries/GetCountries';
 import GetAirlines from '../airlines/GetAirlines';
 import './Flights.css';
+import AddTicket from '../customers/AddTicket';
 
 const FlightSearchForm = () => {
  
@@ -14,7 +15,8 @@ const FlightSearchForm = () => {
   const [flights, setFlights] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isSwitched, setIsSwitched] = useState(null);
-  
+  const [selectedFlightId, setSelectedFlightId] = useState(null);
+  const [clicked, setClicked] = useState(false)
   const handleSubmit = async (event) => {
  
     event.preventDefault();
@@ -41,12 +43,12 @@ const FlightSearchForm = () => {
 
   const handleOriginCountrySelect = (countryId) => {
     setSelectedOriginCountry(countryId);
-    setIsSwitched(false);
+    // setIsSwitched(false);
   };
 
   const handleDestinationCountrySelect = (countryId) => {
     setSelectedDestinationCountry(countryId);
-    setIsSwitched(false);
+    // setIsSwitched(false);
   };
 
   const handleAirlineCompanySelect = (airlineCompanyId) => {
@@ -61,14 +63,14 @@ const FlightSearchForm = () => {
     setSelectedLandingTime(event.target.value);
   };
 
-  const handleSwitch = () => {
-    setIsSwitched(!isSwitched);
-    setSelectedOriginCountry(selectedDestinationCountry);
-    setSelectedDestinationCountry(selectedOriginCountry);
-    console.log("After switch:", selectedOriginCountry, selectedDestinationCountry);
-  };
+  // const handleSwitch = () => {
+  //   setIsSwitched(!isSwitched);
+  //   setSelectedOriginCountry(selectedDestinationCountry);
+  //   setSelectedDestinationCountry(selectedOriginCountry);
+  //   console.log("After switch:", selectedOriginCountry, selectedDestinationCountry);
+  // };
 
-  const isButtonDisabled = !selectedOriginCountry || !selectedDestinationCountry;
+  // const isButtonDisabled = !selectedOriginCountry || !selectedDestinationCountry;
 
 
   const clearForm = () => {
@@ -78,7 +80,13 @@ const FlightSearchForm = () => {
     setSelectedAirlineCompany("");
     setSelectedDepartureTime("");
     setSelectedLandingTime("");
-  }
+  };
+
+  const handleClick = (flightId) => {
+    setSelectedFlightId(flightId);
+    setClicked(true);
+    
+  };
   
   return (
     <div> 
@@ -91,9 +99,9 @@ const FlightSearchForm = () => {
         </label>
         <br/>
 
-        <label id='switch'>
+        {/* <label id='switch'>
         <button id='switch' type="button" onClick={handleSwitch} disabled={isButtonDisabled}>
-          {isSwitched?"<==" : "==>"}</button></label>
+          {isSwitched?"<==" : "==>"}</button></label> */}
           
         <label id='destination'>
           <span>To</span>
@@ -130,21 +138,48 @@ const FlightSearchForm = () => {
       </form>
 
       <ul>
+      
 {isLoaded ? (
   
   flights.length > 0 ? (
     
-    flights.map((flight) => (
-      <div key={flight.id} className="flight-result">
-        <p id='A'>FlighID {flight.id}</p>
-        <p id='A'>{flight.origin_country_name}</p>
-        <p id='A'>{flight.destination_country_name}</p>
-        <p id='A'>{flight.airline_company_name}</p>
-        <p id='A'>{flight.departure_time}</p>
-        <p id='A'>{flight.landing_time}</p>
-        <p id='A'>Tickets - {flight.remaining_tickets}</p>
-      </div>
-    ))
+
+//     flights.map((flight) => (
+//       <div key={flight.id} className="flight-result">
+
+//   <a id='addticket' onClick={() => handleClick(flight.id)}>
+//   {/* {activeComponent === "addticket" && <AddTicket flightId={flight.id}/>} */}
+  
+//   {clicked && <AddTicket flightId={selectedFlightId}/>}
+//     <p className='flight-info'>FlighID {flight.id}</p>
+//     <p className='flight-info'>{flight.origin_country_name}</p>
+//     <p className='flight-info'>{flight.destination_country_name}</p>
+//     <p className='flight-info'>{flight.airline_company_name}</p>
+//     <p className='flight-info'>{flight.departure_time}</p>
+//     <p className='flight-info'>{flight.landing_time}</p>
+//     <p className='flight-info'>Tickets - {flight.remaining_tickets}</p>
+//   </a>
+// </div>
+
+//     ))
+
+
+flights.map((flight) => (
+  <div key={flight.id} className="flight-result">
+
+<a id='addticket' >
+{<AddTicket flightId={flight.id}/>}
+<p className='flight-info'>FlighID {flight.id}</p>
+<p className='flight-info'>{flight.origin_country_name}</p>
+<p className='flight-info'>{flight.destination_country_name}</p>
+<p className='flight-info'>{flight.airline_company_name}</p>
+<p className='flight-info'>{flight.departure_time}</p>
+<p className='flight-info'>{flight.landing_time}</p>
+<p className='flight-info'>Tickets - {flight.remaining_tickets}</p>
+</a>
+</div>
+
+))
   ) : (
     <p id='noflights'>No flights found</p>
   )

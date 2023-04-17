@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from './components/authentication/Login';
 import SignUp from './components/authentication/SignUp';
 import FlightSearchForm from './components/flights/FlightSearchForm';
-import UpdateCustomer from "./components/customers/UpdateCustomer";
+import UpdateCustomer from "./components/customers/CustomerProfile";
 import Navbar from "./components/general/Navbar";
 
 import './App.css';

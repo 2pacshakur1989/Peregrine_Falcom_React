@@ -22,13 +22,13 @@ nav {
 
 #mainP{
     text-align:center;
-    padding-right: 15px;
+    padding-right: 35px;
 }
 
 #main{
     color: white;
     text-align: center;
-    padding: 10px;
+    padding: 8px;
     text-decoration: none;
     font-weight: bolder;
     border-radius: 25px;
@@ -109,7 +109,7 @@ nav {
 #drop{
     color: white;
     text-align: center;
-    padding: 10px;
+    padding: 8px;
     text-decoration: none;
     font-weight: bolder;
     border-radius: 25px;
