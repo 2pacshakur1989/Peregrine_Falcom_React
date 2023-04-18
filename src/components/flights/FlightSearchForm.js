@@ -14,7 +14,6 @@ const FlightSearchForm = () => {
   const [selectedLandingTime, setSelectedLandingTime] = useState('');
   const [flights, setFlights] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isSwitched, setIsSwitched] = useState(null);
   const [selectedFlightId, setSelectedFlightId] = useState(null);
   const [clicked, setClicked] = useState(false)
   const handleSubmit = async (event) => {
@@ -43,12 +42,10 @@ const FlightSearchForm = () => {
 
   const handleOriginCountrySelect = (countryId) => {
     setSelectedOriginCountry(countryId);
-    // setIsSwitched(false);
   };
 
   const handleDestinationCountrySelect = (countryId) => {
     setSelectedDestinationCountry(countryId);
-    // setIsSwitched(false);
   };
 
   const handleAirlineCompanySelect = (airlineCompanyId) => {
@@ -62,15 +59,6 @@ const FlightSearchForm = () => {
   const handleLandingTimeChange = (event) => {
     setSelectedLandingTime(event.target.value);
   };
-
-  // const handleSwitch = () => {
-  //   setIsSwitched(!isSwitched);
-  //   setSelectedOriginCountry(selectedDestinationCountry);
-  //   setSelectedDestinationCountry(selectedOriginCountry);
-  //   console.log("After switch:", selectedOriginCountry, selectedDestinationCountry);
-  // };
-
-  // const isButtonDisabled = !selectedOriginCountry || !selectedDestinationCountry;
 
 
   const clearForm = () => {
@@ -98,10 +86,6 @@ const FlightSearchForm = () => {
           <input type="hidden" value={selectedOriginCountry} onChange={(e) => setSelectedOriginCountry(e.target.value)} />
         </label>
         <br/>
-
-        {/* <label id='switch'>
-        <button id='switch' type="button" onClick={handleSwitch} disabled={isButtonDisabled}>
-          {isSwitched?"<==" : "==>"}</button></label> */}
           
         <label id='destination'>
           <span>To</span>
@@ -142,27 +126,6 @@ const FlightSearchForm = () => {
 {isLoaded ? (
   
   flights.length > 0 ? (
-    
-
-//     flights.map((flight) => (
-//       <div key={flight.id} className="flight-result">
-
-//   <a id='addticket' onClick={() => handleClick(flight.id)}>
-//   {/* {activeComponent === "addticket" && <AddTicket flightId={flight.id}/>} */}
-  
-//   {clicked && <AddTicket flightId={selectedFlightId}/>}
-//     <p className='flight-info'>FlighID {flight.id}</p>
-//     <p className='flight-info'>{flight.origin_country_name}</p>
-//     <p className='flight-info'>{flight.destination_country_name}</p>
-//     <p className='flight-info'>{flight.airline_company_name}</p>
-//     <p className='flight-info'>{flight.departure_time}</p>
-//     <p className='flight-info'>{flight.landing_time}</p>
-//     <p className='flight-info'>Tickets - {flight.remaining_tickets}</p>
-//   </a>
-// </div>
-
-//     ))
-
 
 flights.map((flight) => (
   <div key={flight.id} className="flight-result">

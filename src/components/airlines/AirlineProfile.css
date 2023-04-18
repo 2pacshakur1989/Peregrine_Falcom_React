@@ -1,0 +1,66 @@
+#AIRLINE{
+    height: 25px;
+    border-radius: 7px;
+    border: none;
+    margin-top: 25px;
+}
+
+
+#airlinefield{
+    color: aliceblue;
+    padding: 1px; 
+    margin-top: 24px;
+}
+
+#current{
+    color: aliceblue;
+    /* padding: 1px;  */
+    margin-top: 18px;  
+}
+
+#new{
+    color: aliceblue;
+    margin-top: 18px;  
+}
+
+
+#confirm{
+    color: aliceblue;
+    padding-bottom: 20px;
+    margin-top: 20px;  
+}
+
+#airlinename{
+    margin-top: 1px;
+    
+}
+
+#namefield{
+    color: aliceblue;
+    margin-top: 5px;
+    padding-bottom: 30px;
+}
+
+#country{
+    color: aliceblue;
+    margin-top: 5px;
+    padding-bottom: 30px;
+}
+
+#AIRLINEz{
+    height: 25px;
+    border-radius: 7px;
+    border: none;
+    margin-top: 14px;
+    padding-top: 200px;  
+}
+
+
+
+#airlineupdateform{
+    display: grid;
+    grid-template-columns: auto 2fr;
+    grid-gap: 1px;
+    width: 400px;
+    margin: 0 auto;
+}

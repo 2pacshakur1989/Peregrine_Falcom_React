@@ -5,12 +5,13 @@ import SignUp from "../authentication/SignUp";
 import FlightSearchForm from "../flights/FlightSearchForm";
 import { AuthContext } from "../authentication/AuthContext";
 import { Admin } from "../admins/Admin";
-import { Airline } from "../airlines/Airline";
 import Cookies from "js-cookie";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Home } from "./Home";
 import CustomerProfile from "../customers/CustomerProfile";
 import MyTickets from "../customers/MyTickets";
+import { MyFlights } from "../flights/MyFlights";
+import AirlineProfile from "../airlines/AirlineProfile";
 
 const Navbar = () => {
     const [LoginLink, setLogin] = useState(false);
@@ -18,22 +19,15 @@ const Navbar = () => {
     const [activeComponent, setActiveComponent] = useState(null);
     const [GetAllFlightsLink, setFlights] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false); // Add a new state variable
-    const [isLoggegOut, setLoggedOut] = useState(false);
     const {user, logout} = useContext(AuthContext);
     const [showDropdown, setShowDropdown] = useState(false);
-    const [showProfile, setShowProfile] = useState(false);
-    const {payloadData} = useContext(AuthContext);
-    const {setRealodUpdatedData} = useContext(AuthContext);
-    const history = useNavigate();
+    const {payloadData, setRealodUpdatedData} = useContext(AuthContext);
     
-    // console.log(payloadData);
 
     const handleLogout = () => {
         logout();
         Cookies.remove('token')
-    }
-    // console.log(payloadData.user_id)
-
+    };
 
     const handleLoginLink = (event) =>{
         event.preventDefault();
@@ -53,7 +47,6 @@ const Navbar = () => {
         setActiveComponent("flights")
     };
 
-    // This function is called when the user logs in successfully
     const handleLoginSuccess = () => {
       console.log("User logged in successfully.");  
         setIsLoggedIn(true);
@@ -76,9 +69,20 @@ const Navbar = () => {
       setRealodUpdatedData(true);
     };
 
+    const handleAirlineProfileClick = (event) => {
+      event.preventDefault();
+      setActiveComponent("airlineprofile");
+      setRealodUpdatedData(true);
+    };
+
     const handleTicketsClick = (event) => {
       event.preventDefault();
       setActiveComponent("tickets");
+    }
+
+    const handleMyFlightsClick = (event) => {
+      event.preventDefault();
+      setActiveComponent("myflights")
     }
 
 
@@ -131,9 +135,20 @@ const Navbar = () => {
 
           {/* Display the Airline link if the user is an airline */}
           {user && payloadData && String(payloadData.roles) === 'airline' && (
+            <div>
             <p id="profileP">
-               <Link id="profile" to="/">{payloadData.username}</Link>
-            </p>
+            <Link id="profile" to="/customer" onClick={handleCustomer}>{payloadData.username}
+            </Link>
+            </p>  
+            <div className="dropdown">
+              {showDropdown && (
+                <div id="dropdown" className="dropdown-content">
+                  <Link id="drop" to="/airlineprofile" onClick={handleAirlineProfileClick}>Profile</Link>
+                  <Link id="drop" to="/myflights" onClick={handleMyFlightsClick} >MyFlights </Link>
+                </div>
+              )}
+            </div>
+            </div>
           )}
 
 
@@ -160,12 +175,14 @@ const Navbar = () => {
             {/* Conditionally render the components based on the value of isLoggedIn */}
             {activeComponent === "flights" && <FlightSearchForm/>}
             {activeComponent === "tickets" && <MyTickets clicked="clicked"/>}
+            {activeComponent === "myflights" && <MyFlights clicked="clicked"/>}
             {activeComponent === "signup" && <SignUp/>}
             {activeComponent === "/" && <Home/>}
             {activeComponent === "login" && <Login handleLoginSuccess={handleLoginSuccess}/>}
             {activeComponent === "customerprofile" && <CustomerProfile/>}
+            {activeComponent === "airlineprofile" && <AirlineProfile/>}
             {isLoggedIn && payloadData && String(payloadData.roles) === "admin" && <Admin />}
-            {isLoggedIn && payloadData && String(payloadData.roles) === "airline" && <Airline />}
+            {/* {isLoggedIn && payloadData && String(payloadData.roles) === "airline" && <Airline />} */}
 
         </div>
     );
