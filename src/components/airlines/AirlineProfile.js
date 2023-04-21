@@ -46,7 +46,6 @@ function AirlineProfile() {
   const [responseMsg, setResponseMsg] = useState('');
   const [showForm, setShowForm] = useState(true);
   const {reloadUpdatedData} = useContext(AuthContext);
-  const [country, setCountry] = useState('');
 
   // const handleSetCountry = (countryId) =>{
       
@@ -184,10 +183,7 @@ function AirlineProfile() {
       dispatch({ type: 'SET_COUNTRY', payload: e.target.value });
     }} 
     required
-  />
-
-
-      
+  /> 
       <input id='create' type='submit' name='Update Profile' value='Update profile'/>
     </form>
     

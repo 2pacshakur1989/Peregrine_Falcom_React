@@ -409,6 +409,7 @@ export const MyTickets = (props) => {
         .then((response) => response.json())
         .then((data) => {
           setTickets(data);
+          console.log(data)
           const flightIds = data.map((ticket) => ticket.flight_id);
           Promise.all(
             flightIds.map((flightId) =>

@@ -1,4 +1,4 @@
-import React, { useState,useContext } from "react";
+import React, { useState,useContext, useEffect } from "react";
 import './Navbar.css';
 import Login from "../authentication/Login";
 import SignUp from "../authentication/SignUp";
@@ -9,30 +9,38 @@ import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
 import { Home } from "./Home";
 import CustomerProfile from "../customers/CustomerProfile";
-import MyTickets from "../customers/MyTickets";
 import { MyFlights } from "../flights/MyFlights";
 import AirlineProfile from "../airlines/AirlineProfile";
+import { AddFlightForm } from "../flights/AddFlightForm";
+import MyTickets from "../customers/MyTickets";
 
 const Navbar = () => {
-    const [LoginLink, setLogin] = useState(false);
     const [SignupLink, setSignup] = useState(false);
     const [activeComponent, setActiveComponent] = useState(null);
+    const [activeComponent2, setActiveComponent2] = useState(null);
     const [GetAllFlightsLink, setFlights] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false); // Add a new state variable
     const {user, logout} = useContext(AuthContext);
     const [showDropdown, setShowDropdown] = useState(false);
     const {payloadData, setRealodUpdatedData} = useContext(AuthContext);
-    
+    const [flightAdded, setFlightAdded] = useState(false);
+    const [flightupdated, setFlightUpdated] = useState(false);
+    // const [isUpdateRequest, setIsUpdateRequest] = useState(false);
+
 
     const handleLogout = () => {
         logout();
         Cookies.remove('token')
     };
 
+    // const handleFlightAdded = () => {
+    //   setFlightAdded(true);
+    // }
+
     const handleLoginLink = (event) =>{
         event.preventDefault();
-        setLogin(true);
         setActiveComponent("login");
+        setActiveComponent2('');
     };
 
     const handleSignupClick = (event) => {
@@ -44,47 +52,61 @@ const Navbar = () => {
     const handleAllFlightsClick = (event) => {
         event.preventDefault();
         setFlights(true);
-        setActiveComponent("flights")
+        setActiveComponent("flights");
+        setActiveComponent2('');
     };
 
     const handleLoginSuccess = () => {
       console.log("User logged in successfully.");  
         setIsLoggedIn(true);
-        setActiveComponent(null)
+        setActiveComponent(null);
     };
 
     const handleHome = (event) => {
       event.preventDefault();
       setActiveComponent("/");
+      setActiveComponent2('');
     };
 
     const handleCustomer = (event) => {
       event.preventDefault();
       setShowDropdown(!showDropdown);
+      setActiveComponent2('');
     };
 
     const handleProfileClick = (event) => {
       event.preventDefault();
       setActiveComponent("customerprofile");
       setRealodUpdatedData(true);
+      setActiveComponent2('');
     };
 
     const handleAirlineProfileClick = (event) => {
       event.preventDefault();
       setActiveComponent("airlineprofile");
       setRealodUpdatedData(true);
+      setActiveComponent2('');
     };
 
     const handleTicketsClick = (event) => {
       event.preventDefault();
       setActiveComponent("tickets");
-    }
+      setActiveComponent2('');
+    };
 
     const handleMyFlightsClick = (event) => {
       event.preventDefault();
-      setActiveComponent("myflights")
-    }
+      setActiveComponent("myflights");
+      setActiveComponent2("addflightform");    
+    };
 
+    // useEffect(() => {
+    //   if (isUpdateRequest === true) {
+    //     setActiveComponent2(null);
+    //   }
+    // });
+
+    
 
     
     return (
@@ -171,11 +193,10 @@ const Navbar = () => {
                 </ul> 
             </nav>
             <br/>
-            
-            {/* Conditionally render the components based on the value of isLoggedIn */}
+            {activeComponent2 === "addflightform" && <AddFlightForm onSuccess={setFlightAdded}/>}
             {activeComponent === "flights" && <FlightSearchForm/>}
-            {activeComponent === "tickets" && <MyTickets clicked="clicked"/>}
-            {activeComponent === "myflights" && <MyFlights clicked="clicked"/>}
+            {activeComponent === "myflights" && <MyFlights clicked="clicked" flightAdded={flightAdded} onUpdate={setFlightUpdated} flightupdated={flightupdated}/>}
+            {activeComponent === "tickets" && <MyTickets clicked="clicked" />}
             {activeComponent === "signup" && <SignUp/>}
             {activeComponent === "/" && <Home/>}
             {activeComponent === "login" && <Login handleLoginSuccess={handleLoginSuccess}/>}

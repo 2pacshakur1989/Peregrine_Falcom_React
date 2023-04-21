@@ -1,19 +1,26 @@
-// import React, { useState, useContext } from 'react'
+// import React, { useState, useContext, useEffect, useCallback } from 'react'
 // import { AuthContext } from '../authentication/AuthContext'
 // import Cookies from 'js-cookie';
+// import { AddFlightForm } from './AddFlightForm';
+// import MyTickets from '../customers/MyTickets';
+// import UpdateFlightForm from './UpdateFlightForm';
 
-// export const MyFlights = () => {
+// export const MyFlights = (props) => {
 //     const [ myflights, setMyFlights ] = useState('');
 //     const { user , payloadData } = useContext(AuthContext);
 //     const [flightDetails, setFlightDetails] = useState([]);
 //     const [airlineId, setAirlineId] = useState('');
 //     const [message, setResponseMsg] = useState('');
+//     const { clicked, flightAdded } = props;
+    
+//     // const [success, setSuccess] = useState(false);
+
+
+//     // console.log(user);
+//     // console.log(payloadData);
 
 //     const handleRemoveFlight = (flightId) => {
-//       console.log(user);
-//       console.log(payloadData);
-//       // console.log(typeof ticketId);
-    
+//       console.log(flightId);
 //       if (user && payloadData && String(payloadData.roles) === "airline") {
 //         fetch(`http://localhost:8000/api/flights/?id=${flightId}`, {
 //           method: "DELETE",
@@ -28,59 +35,80 @@
 //               setTimeout(() => {
 //                 setResponseMsg("");
 //               }, 3000);
-//               MyFlights();
+//               // fetch the flights again after deleting the flight
+//               fetchFlights();
+//             }else if(response.status === 404){
+//               setResponseMsg("Flight cannot be removed as it has an active/purchased tickets");
+//               setTimeout(() => {
+//                 setResponseMsg("");
+//               }, 3000);
 //             }
 //           })
 //           .catch((error) => {
 //             console.log(error);
 //           });
+//       }
+//     };
+
+//     useEffect(() => {
+//       if ((clicked === "clicked") || (flightAdded === true)) {
+//         fetchFlights();
+//       }
+//     }, [clicked, flightAdded]);
+
+
+
+
+
+
+//     const fetchFlights = () => {
+//       if (user && payloadData && String(payloadData.roles) === "airline") {
+//         fetch(
+//           `http://localhost:8000/api/airlines/?user_id=${payloadData.user_id}`,
+//           {
+//             method: "GET",
+//             headers: {
+//               "Content-Type": "application/json",
+//               Authorization: `Bearer ${Cookies.get("token")}`,
+//             },
+//           }
+//         )
     
-//     if (user && payloadData && String(payloadData.roles) === "airline") {
-//       fetch(
-//         `http://localhost:8000/api/airlines/?user_id=${payloadData.user_id}`,
-//         {
-//           method: "GET",
-//           headers: {
-//             "Content-Type": "application/json",
-//             Authorization: `Bearer ${Cookies.get("token")}`,
-//           },
-//         }
-//       )
 //         .then((response) => response.json())
 //         .then((data) => {
-//           setAirlineId(data);
-//           console.log(data);
+//             setAirlineId(data.airline_data.id);
+//             fetch(
+//               `http://localhost:8000/api/flights/?my=${data.airline_data.id}`,
+//               {
+//                 method: "GET",
+//                 headers: {
+//                   "Content-Type": "application/json",
+//                   Authorization: `Bearer ${Cookies.get("token")}`,
+//                 },
+//               }
+//             )
+//             .then((response) => response.json())
+//             .then((data) => {
+//               setMyFlights(data);
+//               const flightIds = data.map((myflights) => myflights.id);
+//               Promise.all(
+//                 flightIds.map((flightId) =>
+//                   fetch(`http://localhost:8000/api/flights/?id=${flightId}`)
+//                     .then((response) => response.json())
+//                 )
+//               ).then((flightDetails) => setFlightDetails(flightDetails));
+//             })
 //         })
+//               // console.log(data.airline_data.id);
+
 //         .catch((error) => {
-//           console.log(error);
+//         console.error(error);  
 //         });
 
-//       fetch(
-//         `http://localhost:8000/api/flights/?my=${airlineId}`,
-//         {
-//           method: "GET",
-//           headers: {
-//             "Content-Type": "application/json",
-//             Authorization: `Bearer ${Cookies.get("token")}`,
-//           },
-//         }
-//       )
-//         .then((response) => response.json())
-//         .then((data) => {
-//           setMyFlights(data);
-//           console.log(data);
-//         })
-//         .then((flightDetails) => setFlightDetails(flightDetails))
-
-//         .catch((error) => {
-//           console.log(error);
-//         });
-//         }
+        
 //       }
 //     };
     
-
-
 //     return (
 //       <div>
 //         <p><span id="message">{message}</span></p>
@@ -91,6 +119,7 @@
 //               <br />
 //               <a id="display">
 //                 <button id="removeticket" onClick={() => handleRemoveFlight(flight.id)}>Remove Flight</button>
+//                <UpdateFlightForm flightId={flight.id}/>
 //                 <p className="info">FlightId-{flightDetails[index]?.id}</p>
 //                 <p className="info">
 //                   {flightDetails[index]?.origin_country_name}
@@ -103,11 +132,12 @@
 //                 </p>
 //                 <p className="info">{flightDetails[index]?.departure_time}</p>
 //                 <p className="info">{flightDetails[index]?.landing_time}</p>
+//                 <p className="info">Tickets - {flightDetails[index]?.remaining_tickets}</p>
 //               </a>
 //             </div>
 //           ))
 //         ) : (
-//           <p id="notickets">No flights found</p>
+//           <p id="notickets">{message}</p>
 //         )}
 //       </div>
 //     ); 
@@ -122,22 +152,12 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect, useCallback } from 'react'
 import { AuthContext } from '../authentication/AuthContext'
 import Cookies from 'js-cookie';
 import { AddFlightForm } from './AddFlightForm';
+import MyTickets from '../customers/MyTickets';
+import UpdateFlightForm from './UpdateFlightForm';
 
 export const MyFlights = (props) => {
     const [ myflights, setMyFlights ] = useState('');
@@ -145,11 +165,11 @@ export const MyFlights = (props) => {
     const [flightDetails, setFlightDetails] = useState([]);
     const [airlineId, setAirlineId] = useState('');
     const [message, setResponseMsg] = useState('');
-    const NoFlights = "No flights found"
-    const { clicked } = props;
-    // console.log(user);
-    // console.log(payloadData);
-
+    const { clicked, flightAdded, onUpdate, flightUpdated } = props;
+    const [airlineCompanyId, setAirlineCompanyId] = useState('');
+    const [activeComponent, setActiveComponent] = useState(null);
+    const [flightId , setFlightId] = useState('');
+    
     const handleRemoveFlight = (flightId) => {
       console.log(flightId);
       if (user && payloadData && String(payloadData.roles) === "airline") {
@@ -181,11 +201,15 @@ export const MyFlights = (props) => {
       }
     };
 
+
+
     useEffect(() => {
-      if (clicked === "clicked") {
+      if ((clicked === "clicked") || (flightAdded === true) || (flightUpdated === false)) {
         fetchFlights();
       }
-    }, [clicked]);
+    }, [clicked, flightAdded, flightUpdated]);
+
+
 
     const fetchFlights = () => {
       if (user && payloadData && String(payloadData.roles) === "airline") {
@@ -198,8 +222,7 @@ export const MyFlights = (props) => {
               Authorization: `Bearer ${Cookies.get("token")}`,
             },
           }
-        )
-    
+        ) 
         .then((response) => response.json())
         .then((data) => {
             setAirlineId(data.airline_data.id);
@@ -210,9 +233,7 @@ export const MyFlights = (props) => {
                 headers: {
                   "Content-Type": "application/json",
                   Authorization: `Bearer ${Cookies.get("token")}`,
-                },
-              }
-            )
+                },})
             .then((response) => response.json())
             .then((data) => {
               setMyFlights(data);
@@ -220,35 +241,67 @@ export const MyFlights = (props) => {
               Promise.all(
                 flightIds.map((flightId) =>
                   fetch(`http://localhost:8000/api/flights/?id=${flightId}`)
-                    .then((response) => response.json())
-                )
-              ).then((flightDetails) => setFlightDetails(flightDetails));
+                    .then((response) => response.json()))
+              ).then((flightDetails) => setFlightDetails(flightDetails));})})
+            .catch((error) => {
+            console.error(error);  
+            });}};
+
+    
+    const fetchAirlineId = () =>{
+      if( user && payloadData && String(payloadData.roles === 'airline')){
+          fetch(`http://localhost:8000/api/airlines/?user_id=${payloadData.user_id}`,{
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${Cookies.get('token')}`,
+              
+              }, 
+          })
+          .then((response) => response.json())
+          .then(data => {
+              setAirlineCompanyId(data.airline_data.id);
             })
-        })
-              // console.log(data.airline_data.id);
-
-        .catch((error) => {
-        console.error(error);  
-        });
-
-        
-      }
+          .catch(error => {
+              console.error(error);
+            });
+          }}
+    
+    
+    const handleUpdateFlight = (Id) =>{
+        setFlightId(Id);
+        fetchAirlineId();
+        setActiveComponent("updateflight");
+        // isUpdateRequest(true);
+        // fetchAirlineId();
     };
-    
+
+    // const handleBackToAddClick = () => {
+    //     isUpdateRequest(false);
+    // };
+        
+
+
     
 
 
+    
     return (
       <div>
+        {/* <button onClick={handleBackToAddClick}>Back To Add</button> */}
+                      {activeComponent === "updateflight" && flightId && <UpdateFlightForm
+                            flightId={flightId} 
+                            airlineId={airlineId}
+                            onUpdate={onUpdate} />}
         <p><span id="message">{message}</span></p>
-        <AddFlightForm/>
         <br />
         {myflights.length > 0 ? (
           myflights.map((flight, index) => (
-            <div key={flight.id} className="result">
-              <br />
+            <div key={flight.id} className="result">              <br />
               <a id="display">
                 <button id="removeticket" onClick={() => handleRemoveFlight(flight.id)}>Remove Flight</button>
+                <button id="updateflight" onClick={() => handleUpdateFlight(flight.id)}>Update Flight</button>
+
                 <p className="info">FlightId-{flightDetails[index]?.id}</p>
                 <p className="info">
                   {flightDetails[index]?.origin_country_name}
