@@ -1,8 +1,8 @@
 import React from 'react'
 import { useState } from 'react'
-import './SignUp.css';
+import './AddCustomer.css';
 
-export default function SignUp() {
+export default function AddCustomer() {
   const [username, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password1, setPassword1] = useState('');
@@ -37,10 +37,9 @@ export default function SignUp() {
       } else if (response.status === 201) {
         setShowForm(false);
         setResponseMsg("Customer created successfully, click the `Login` tab to log in");
-        setTimeout(() => {
-          setResponseMsg("");
-          window.location.href = '/';
-        }, 3000);
+        // setTimeout(() => {
+        //   setResponseMsg("");
+        // }, 3000);
       }
     })
 
@@ -91,39 +90,40 @@ export default function SignUp() {
 {Object.keys(errors).length > 0 ? (
   <ul>
     {Object.keys(errors).map((key) => (
-      <li key={key}>
-        <span id='error'>{errors[key]}</span> 
-      </li>
+      <p key={key}>
+        <span id='erroraddcustomer'>{errors[key]}</span> 
+      </p>
     ))}
   </ul>
 ) : (
   <>
-    <p id='success'>{responseMsg}</p>
+    <p id='addcustomersuccess'>{responseMsg}</p>
   </>
 )}
 
 
   {showForm ? (
-    <form id='signupform' onSubmit={handleSubmit}>
-      <label id='field' htmlFor="username">Username</label>
-      <input type="text" name="username" value={username} onChange={handleUserNameChange} required/>
-      <label id='field' htmlFor='email'>Email</label>
-      <input type='text'  name="email" value={email} onChange={handleEmailChange} required/>
-      <label id='field' htmlFor='password1'>Password</label>
-      <input type='password' id='password1' name='password1' value={password1} onChange={handlePassword1Change} required/>
-      <label id='field' htmlFor='password2'>Confirm password</label>
-      <input type='password' id='password2' name='password2' value={password2} onChange={handlePassword2Change} required/>
-      <label id='field' htmlFor='first_name'>First name</label>
-      <input type='text' id='first_name' name='first_name' value={first_name} onChange={handleFirstNameChange} required/>
-      <label id='field' htmlFor='last_name'>Last name</label>
-      <input type='text' id='last_name' name='last_name' value={last_name} onChange={handleLastNameChange} required/>
-      <label id='field' htmlFor='address'>Address</label>
-      <input type='text' id='address' name='address' value={address} onChange={handleAddressChange} required/>
-      <label id='field' htmlFor='phone_no'>Phone number</label>
-      <input type='text' id='phone_no' name='phone_no' value={phone_no} onChange={handlePhoneNumberChange} required/>
-      <label id='field' htmlFor='credit_card_no'>Credit card</label>
-      <input type='text' id='credit_card_no' name='credit_card_no' value={credit_card_no} onChange={handleCreditCardChange} required/>
-      <input id='create' type='submit' name='Create Profile' value='Create profile'/>
+    <form id='addcustomerform' onSubmit={handleSubmit}>
+      <label id='field2' htmlFor="username"></label>
+      <input type="text" name="username" placeholder='Username' value={username} onChange={handleUserNameChange} required/>
+      <label id='field2' htmlFor='email'></label>
+      <input type='text' name="email" placeholder='Email' value={email} onChange={handleEmailChange} required/>
+      <label id='field2' htmlFor='password1'></label>
+      <input type='password' id='password1' name='password1' placeholder='Password' value={password1} onChange={handlePassword1Change} required/>
+      <label id='field2' htmlFor='password2'></label>
+      <input type='password' id='password2' name='password2' placeholder='Confirm password' value={password2} onChange={handlePassword2Change} required/>
+      <label id='field2' htmlFor='first_name'></label>
+      <input type='text' id='first_name' name='first_name' placeholder='First name' value={first_name} onChange={handleFirstNameChange} required/>
+      <label id='field2' htmlFor='last_name'></label>
+      <input type='text' id='last_name' name='last_name' placeholder='Last name' value={last_name} onChange={handleLastNameChange} required/>
+      <label id='field2' htmlFor='address'></label>
+      <input type='text' id='address' name='address' placeholder='Address' value={address} onChange={handleAddressChange} required/>
+      <label id='field2' htmlFor='phone_no'></label>
+      <input type='text' id='phone_no' name='phone_no' placeholder='Phone number' value={phone_no} onChange={handlePhoneNumberChange} required/>
+      <label id='field2' htmlFor='credit_card_no'></label>
+      <input type='text' id='credit_card_no' name='credit_card_no' placeholder='Credit card number' value={credit_card_no} onChange={handleCreditCardChange} required/>
+      <label id='field2' htmlFor='sybut'></label>
+      <input id='createcustomerbutton' type='submit' name='Create Profile' value='Create profile'/>
     </form>
     
   ) : (

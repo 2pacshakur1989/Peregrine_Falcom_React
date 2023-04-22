@@ -47,10 +47,6 @@ function AirlineProfile() {
   const [showForm, setShowForm] = useState(true);
   const {reloadUpdatedData} = useContext(AuthContext);
 
-  // const handleSetCountry = (countryId) =>{
-      
-  //     <GetCountries onCountrySelect={handleSetCountry} selectedCountryId={countryId}/>
-  // };
 
   const handleSetCountry = (countryId) =>{
     dispatch({ type: 'SET_COUNTRY', payload: countryId });

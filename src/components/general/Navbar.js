@@ -1,4 +1,4 @@
-import React, { useState,useContext, useEffect } from "react";
+import React, { useState,useContext } from "react";
 import './Navbar.css';
 import Login from "../authentication/Login";
 import SignUp from "../authentication/SignUp";
@@ -13,29 +13,23 @@ import { MyFlights } from "../flights/MyFlights";
 import AirlineProfile from "../airlines/AirlineProfile";
 import { AddFlightForm } from "../flights/AddFlightForm";
 import MyTickets from "../customers/MyTickets";
+import { AllCustomers } from "../admins/AllCustomers";
 
 const Navbar = () => {
-    const [SignupLink, setSignup] = useState(false);
+  
     const [activeComponent, setActiveComponent] = useState(null);
     const [activeComponent2, setActiveComponent2] = useState(null);
-    const [GetAllFlightsLink, setFlights] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false); // Add a new state variable
     const {user, logout} = useContext(AuthContext);
     const [showDropdown, setShowDropdown] = useState(false);
     const {payloadData, setRealodUpdatedData} = useContext(AuthContext);
     const [flightAdded, setFlightAdded] = useState(false);
-    const [flightupdated, setFlightUpdated] = useState(false);
-    // const [isUpdateRequest, setIsUpdateRequest] = useState(false);
-
+    const [flightUpdated, setFlightUpdated] = useState(false);
 
     const handleLogout = () => {
         logout();
         Cookies.remove('token')
     };
-
-    // const handleFlightAdded = () => {
-    //   setFlightAdded(true);
-    // }
 
     const handleLoginLink = (event) =>{
         event.preventDefault();
@@ -45,13 +39,11 @@ const Navbar = () => {
 
     const handleSignupClick = (event) => {
         event.preventDefault();
-        setSignup(true);
         setActiveComponent("signup");
     };
 
     const handleAllFlightsClick = (event) => {
         event.preventDefault();
-        setFlights(true);
         setActiveComponent("flights");
         setActiveComponent2('');
     };
@@ -100,13 +92,11 @@ const Navbar = () => {
       setActiveComponent2("addflightform");    
     };
 
-    // useEffect(() => {
-    //   if (isUpdateRequest === true) {
-    //     setActiveComponent2(null);
-    //   }
-    // });
+    const handleAllCustomersClick = (event) => {
+      event.preventDefault();
+      setActiveComponent("allcustomers");
 
-    
+    }
 
     
     return (
@@ -114,16 +104,21 @@ const Navbar = () => {
             <nav>
                 <ul>
                 <div id="mainP">
+
+
           <span>
           <Link id="main" to="/about" onClick={handleHome}>About us</Link>        
           <Link id="main" to="/flights" onClick={handleAllFlightsClick}>Flights</Link>
-          <Link id="main" to="/airlines">Airlines</Link>
+          {/* <Link id="main" to="/airlines">Airlines</Link> */}
           {user && ( 
              <p id="logoutP"> <Link id="Logout" href="/" onClick={handleLogout}>
                 Logout
               </Link></p>
           )}
           </span>
+
+
+
 
           {/* Display the Customer link if the user is a customer */}
           {user && payloadData && String(payloadData.roles) === "customer" && (
@@ -143,17 +138,33 @@ const Navbar = () => {
             </div> 
           )}
 
+
+
+
+
           {/* Display the Admin link if the user is an admin */}
           {user && payloadData && String(payloadData.roles) === "admin" && (
+            <div>
+            <p id="profileP">
+            <Link id="profile" to="/customer" onClick={handleCustomer}>{payloadData.username}
+            </Link>
+            </p> 
             <div className="dropdown">
               {showDropdown && (
                 <div id="dropdown" className="dropdown-content">
                   <Link id="drop" to="/">Profile</Link>
-                  <Link id="drop" to="/">Tickets</Link>
+                  <Link id="drop" to="/">Admins</Link>
+                  <Link id="drop" to="/">Airlines</Link>
+                  <Link id="drop" to="/allcustomers" onClick={handleAllCustomersClick}>Customers</Link>
                 </div>
               )}
             </div>
+            </div>
           )}
+
+
+
+
 
           {/* Display the Airline link if the user is an airline */}
           {user && payloadData && String(payloadData.roles) === 'airline' && (
@@ -172,6 +183,8 @@ const Navbar = () => {
             </div>
             </div>
           )}
+
+
 
 
           {/* Display the Login and Signup links if the user is not logged in */}
@@ -195,15 +208,14 @@ const Navbar = () => {
             <br/>
             {activeComponent2 === "addflightform" && <AddFlightForm onSuccess={setFlightAdded}/>}
             {activeComponent === "flights" && <FlightSearchForm/>}
-            {activeComponent === "myflights" && <MyFlights clicked="clicked" flightAdded={flightAdded} onUpdate={setFlightUpdated} flightupdated={flightupdated}/>}
+            {activeComponent === "myflights" && <MyFlights clicked="clicked" flightAdded={flightAdded} onUpdate={setFlightUpdated} flightUpdated={flightUpdated}/>}
             {activeComponent === "tickets" && <MyTickets clicked="clicked" />}
             {activeComponent === "signup" && <SignUp/>}
             {activeComponent === "/" && <Home/>}
             {activeComponent === "login" && <Login handleLoginSuccess={handleLoginSuccess}/>}
             {activeComponent === "customerprofile" && <CustomerProfile/>}
             {activeComponent === "airlineprofile" && <AirlineProfile/>}
-            {isLoggedIn && payloadData && String(payloadData.roles) === "admin" && <Admin />}
-            {/* {isLoggedIn && payloadData && String(payloadData.roles) === "airline" && <Airline />} */}
+            {activeComponent === "allcustomers" && <AllCustomers clicked="clicked" />}
 
         </div>
     );

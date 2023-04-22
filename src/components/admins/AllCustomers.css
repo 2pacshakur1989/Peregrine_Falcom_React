@@ -1,0 +1,141 @@
+/* tr {
+  border-bottom: 1px solid #ccc;
+}
+
+td, th {
+  padding: 10px;
+  align-items: center;
+
+} */
+
+/* th {
+  background-color: #f2f2f2;
+ 
+} */
+
+/* tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#thead{
+  text-align: center;
+}
+#table{
+  text-align: center;
+  align-items: center;
+} */
+
+
+#result{
+  /* display: ruby-base-container; */
+  /* align-items: center; */
+  margin-left: -35px;
+  font-weight: bold;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  color: rgb(0, 0, 0);
+  border: 10px;
+  /* border-radius: 100px; */
+  /* background-color: #a4becf; */
+}
+
+#searchcustomer{
+  margin-left: -580px;
+}
+
+#selectcustomer{
+  margin-left: -570px;
+  font-size: larger;
+}
+
+#customersearchbutton{
+  background-color: #3498db;
+  border: none;
+  color: white;
+  padding: 5px 18px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 17px;
+  margin-top: 12px;
+  margin-left: 2px;
+  cursor: pointer;
+  font-weight: bolder;
+  border-radius: 5px;
+  width: 120px;
+  /* margin-left: 200px; */
+}
+
+#move{
+  margin-top: 20px;
+  font-size: medium;
+  width: 120px;
+  height: 26px;
+  margin-left: 4px;
+}
+
+
+
+.table-container {
+  margin-left: 600px;
+  border-collapse: collapse; 
+  
+}
+
+.table-container td,
+.table-container th {
+  
+  padding: 12px 15px;
+  border: none;
+  background-color: #4d9fd5;
+  border-radius: 2px;
+  text-align: center;
+}
+
+.table-container tbody {
+  border-radius: 8px;
+
+  background-color: #f2f2f2;
+}
+
+
+
+
+
+
+
+#removecustomerbutton{
+  background-color: #d2655b;
+  /* margin-left: 50px; */
+  border: none;
+  color: white;
+  padding: 6.6px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: bolder;
+  border-radius: 5px;
+}
+
+
+#adminaddcustomer{
+  background-color: #3498db;
+  border: none;
+  color: white;
+  padding: 5px 18px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 17px;
+  margin-top: 12px;
+  margin-left: -570px;
+  cursor: pointer;
+  font-weight: bolder;
+  border-radius: 5px;
+}
+
+
+  
+
+  

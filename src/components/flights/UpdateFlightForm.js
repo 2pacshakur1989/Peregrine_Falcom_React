@@ -10,8 +10,7 @@ function UpdateFlightForm(props) {
             airlineId,
             onUpdate,
  } = props;
- console.log(flightId);
- console.log(airlineId);
+
 
     const { user, payloadData} = useContext(AuthContext);
     const [errors, setErrors] = useState('');
