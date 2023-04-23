@@ -36,9 +36,8 @@ export const MyTickets = (props) => {
         }})
         .catch((error) => {
           console.log(error);
-        })};
-
-    };
+        })};};
+        
   useEffect(() => {
     if (clicked === "clicked") {
       handleGetTickets();

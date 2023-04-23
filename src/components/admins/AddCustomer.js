@@ -35,11 +35,12 @@ export default function AddCustomer() {
           }
         });
       } else if (response.status === 201) {
-        setShowForm(false);
-        setResponseMsg("Customer created successfully, click the `Login` tab to log in");
-        // setTimeout(() => {
-        //   setResponseMsg("");
-        // }, 3000);
+        // setShowForm(false);
+        setResponseMsg("Customer created successfully");
+        setTimeout(() => {
+          setResponseMsg("");
+          window.location.href = '/';
+        }, 3000);
       }
     })
 

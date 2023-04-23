@@ -11,8 +11,6 @@
 #field2{
     color: rgb(0, 0, 0);
     padding: 7px;
-    /* font-weight: bold; */
-    
 }
 
 input{
@@ -37,21 +35,9 @@ input{
     margin-left: -600px;
 }
 
-
-/* #address{
-    color: rgb(237, 230, 230);
-    padding: 7px;
-    font-weight: bold;
+#addcustomersuccess{
+   
+    color: white;
+    font-size: medium;
+    margin-left: -570px;     
 }
-
-#phone_no{
-    color: rgb(62, 60, 60);
-    padding: 7px;
-    font-weight: bold;
-}
-
-#credit_card{
-    color: rgb(47, 45, 45);
-    padding: 7px;
-    font-weight: bold;
-} */
