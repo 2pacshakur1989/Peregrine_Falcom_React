@@ -1,22 +1,18 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../authentication/AuthContext';
 import Cookies from 'js-cookie';
-import GetCustomers from '../customers/GetCustomers';
-import AddCustomer from './AddCustomer';
-import './AddAirline.css';
+import './AllAirlines.css';
 import GetAirlines from '../airlines/GetAirlines';
 import AddAirline from './AddAirline';
 
 
-export const AllAirlines = (props) => {
+export const AllAirlines = () => {
   const { user, payloadData } = useContext(AuthContext);
   const [airline, setAirline] = useState(null);
   const [searchId, setSearchId] = useState('');
   const [message, setResponseMsg] = useState('');
   const [activeComponent, setActiveComponent] = useState('');
-  const { airlineRemoved } = props;
 
-  // airlineRemoved(false);
 
   const handleAddClick = (event) => {
     event.preventDefault();
@@ -34,16 +30,21 @@ export const AllAirlines = (props) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${Cookies.get("token")}`,
         }})
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setResponseMsg('Airline deleted successfully');
-          setTimeout(() => {
-            setResponseMsg('');
-            airlineRemoved();
-          }, 2000);
-          
+        .then(response => {
+          if (response.status === 401) {
+            setResponseMsg('This airlines has an on going flights thus cannot be deleted.');
+            setTimeout(() => {
+              setResponseMsg('');
+            }, 2000);
+          } else if (response.status === 200) {
+            setResponseMsg('Airline deleted successfully');
+            setTimeout(() => {
+              setResponseMsg('');
+              window.location.href = '/';
+            }, 2000);
+          }
         })
+        
         .catch((error) => {
           console.log(error);
         });}}
@@ -91,25 +92,27 @@ export const AllAirlines = (props) => {
   };
 
 return (
+  <div>
+
   <div className="table-container">
-    <p id='removedsuccessfully'>{message}</p>
+    <p id='airlineremovedsuccessfully'>{message}</p>
     <div>
     <button id='adminaddairline' onClick={handleAddClick}>
       {activeComponent === 'addairline' ? 'Hide' : 'Add airline'} 
     </button>
     {activeComponent === 'addairline' && <AddAirline />}
   </div>
-    <div id='searchcustomer'>
-      <input id='move'
+    <div id='searchairline'>
+      <input id='airlinesearchid'
         type="text"
         value={searchId}
         onChange={(event) => setSearchId(event.target.value)}
         placeholder="Search by ID"
       />
-      <button id='customersearchbutton' onClick={handleSelect}>Search</button>
+      <button id='airlinesearchbutton' onClick={handleSelect}>Search</button>
     </div>
     <br></br>
-    <div id='selectcustomer'>
+    <div id='selectairline'>
     <GetAirlines onAirlineCompanySelect={handleAirlineSelect}/>
     <br></br>
     </div>
@@ -130,6 +133,7 @@ return (
       </div>
     )}
     
+  </div>
   </div>
 );
 };

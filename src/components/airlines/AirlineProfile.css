@@ -1,66 +1,48 @@
-#AIRLINE{
-    height: 25px;
-    border-radius: 7px;
-    border: none;
-    margin-top: 25px;
-}
 
-
-#airlinefield{
-    color: aliceblue;
-    padding: 1px; 
-    margin-top: 24px;
-}
-
-#current{
-    color: aliceblue;
-    /* padding: 1px;  */
-    margin-top: 18px;  
-}
-
-#new{
-    color: aliceblue;
-    margin-top: 18px;  
-}
-
-
-#confirm{
-    color: aliceblue;
-    padding-bottom: 20px;
-    margin-top: 20px;  
-}
-
-#airlinename{
-    margin-top: 1px;
-    
-}
-
-#namefield{
-    color: aliceblue;
-    margin-top: 5px;
-    padding-bottom: 30px;
-}
-
-#country{
-    color: aliceblue;
-    margin-top: 5px;
-    padding-bottom: 30px;
-}
-
-#AIRLINEz{
-    height: 25px;
-    border-radius: 7px;
-    border: none;
-    margin-top: 14px;
-    padding-top: 200px;  
-}
-
-
-
-#airlineupdateform{
+#airlineprofile{
     display: grid;
     grid-template-columns: auto 2fr;
     grid-gap: 1px;
-    width: 400px;
+    width: 300px;
     margin: 0 auto;
+}
+
+
+
+#airlineupdateprofile{
+    background-color: #428fc2;
+    color: rgb(255, 255, 255);
+    height: 35px;
+    align-items: center;
+    border-radius: 10px;
+    font-size: medium;
+    border-width: 0.2px;
+}
+
+
+
+
+#inputfieldairlineprofile{
+    height: 25px;
+    border-radius: 7px;
+    border: none;
+    margin-top: 5px;
+}
+
+
+#inputfieldairlineprofile2{
+    height: 25px;
+    border-radius: 7px;
+    border: none;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+
+#inputfieldairlineprofile3{
+    height: 25px;
+    border-radius: 7px;
+    border: none;
+    margin-bottom: 5px;
+    margin-top: 10px;
 }

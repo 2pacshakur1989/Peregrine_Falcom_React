@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, useReducer } from 'react';
 import { AuthContext } from "../authentication/AuthContext";
 import Cookies from 'js-cookie';
+import './CustomerProfile.css';
 
 function CustomerProfile() {
 
@@ -151,55 +152,58 @@ function CustomerProfile() {
   <ul>
     {Object.keys(errors).map((key) => (
       <p key={key}>
-        <span id='error'>{errors[key]}</span> 
+        <span id='updateprofilerror'>{errors[key]}</span> 
       </p>
     ))}
   </ul>
 ) : (
   <>
-    <p id='success'>{responseMsg}</p>
+    <p id='updateprofilesuccess'>{responseMsg}</p>
   </>
 )}
   {showForm ? (
-    <form id='signupform' onSubmit={(e) => handleUpdate(e)}>
-      <label id='field' htmlFor="username">Username</label>
-      <input type="text" name="username" defaultValue={state.username} onChange={(e) => dispatch({ type: 'SET_USERNAME', payload: e.target.value })} required/>
+    <div id='moveform'>
+    <form id='customerupdateform' onSubmit={(e) => handleUpdate(e)}>
+      <label id='field' htmlFor="username"></label>
+      <input placeholder='Username' id='input' type="text" name="username" defaultValue={state.username} onChange={(e) => dispatch({ type: 'SET_USERNAME', payload: e.target.value })} required/>
 
-      <label id='field' htmlFor='email'>Email</label>
-      <input type='text'  name="email" defaultValue={state.email} onChange={(e) => dispatch({ type: 'SET_EMAIL', payload: e.target.value })} required/>
+      <label id='field5' htmlFor='email'></label>
+      <input placeholder='' type='text' id='input' name="email" defaultValue={state.email} onChange={(e) => dispatch({ type: 'SET_EMAIL', payload: e.target.value })} required/>
 
-      <label id='field' htmlFor='current_password'>Current Password</label>
-      <input type='password' id='current_password' name='current_password' defaultValue={state.current_password} onChange={(e) => dispatch({ type: 'SET_CURRENT_PASSWORD', payload: e.target.value })}/>
+      <label id='field5' htmlFor='current_password'></label>
+      <input placeholder='Current password' type='password' id='input' name='current_password' defaultValue={state.current_password} onChange={(e) => dispatch({ type: 'SET_CURRENT_PASSWORD', payload: e.target.value })}/>
 
-      <label id='field' htmlFor='new_password'>New password</label>
-      <input type='password' id='new_password' name='new_password' defaultValue={state.password1} onChange={(e) => dispatch({ type: 'SET_NEW_PASSWORD', payload: e.target.value })}/>
+      <label id='field5' htmlFor='new_password'></label>
+      <input placeholder='New password' type='password' id='input' name='new_password' defaultValue={state.password1} onChange={(e) => dispatch({ type: 'SET_NEW_PASSWORD', payload: e.target.value })}/>
 
-      <label id='field' htmlFor='confirm_password'>Confirm password</label>
-      <input type='password' id='confirm_password' name='confirm_password' defaultValue={state.password2} onChange={(e) => dispatch({ type: 'SET_CONFIRM_PASSWORD', payload: e.target.value })}/>
+      <label id='field5' htmlFor='confirm_password'></label>
+      <input placeholder='Confirm passwotd' type='password' id='input' name='confirm_password' defaultValue={state.password2} onChange={(e) => dispatch({ type: 'SET_CONFIRM_PASSWORD', payload: e.target.value })}/>
 
-      <label id='field' htmlFor='first_name'>First name</label>
-      <input type='text' id='first_name' name='first_name' defaultValue={state.first_name} onChange={(e) => dispatch({ type: 'SET_FIRST_NAME', payload: e.target.value })} required/>
+      <label id='field5' htmlFor='first_name'></label>
+      <input placeholder='First name' type='text' id='input' name='first_name' defaultValue={state.first_name} onChange={(e) => dispatch({ type: 'SET_FIRST_NAME', payload: e.target.value })} required/>
 
-      <label id='field' htmlFor='last_name'>Last name</label>
-      <input type='text' id='last_name' name='last_name' defaultValue={state.last_name} onChange={(e) => dispatch({ type: 'SET_LAST_NAME', payload: e.target.value })} required/>
+      <label id='field5' htmlFor='last_name'></label>
+      <input placeholder='Last name' type='text' id='input' name='last_name' defaultValue={state.last_name} onChange={(e) => dispatch({ type: 'SET_LAST_NAME', payload: e.target.value })} required/>
 
-      <label id='field' htmlFor='address'>Address</label>
-      <input type='text' id='address' name='address' defaultValue={state.address} onChange={(e) => dispatch({ type: 'SET_ADDRESS', payload: e.target.value })} required/>
+      <label id='field5' htmlFor='address'></label>
+      <input placeholder='Address' type='text' id='input' name='address' defaultValue={state.address} onChange={(e) => dispatch({ type: 'SET_ADDRESS', payload: e.target.value })} required/>
 
-      <label id='field' htmlFor='phone_no'>Phone number</label>
-      <input type='text' id='phone_no' name='phone_no' defaultValue={state.phone_no} onChange={(e) => dispatch({ type: 'SET_PHONE_NO', payload: e.target.value })} required/>
+      <label id='field5' htmlFor='phone_no'></label>
+      <input placeholder='Phone number' type='text' id='input' name='phone_no' defaultValue={state.phone_no} onChange={(e) => dispatch({ type: 'SET_PHONE_NO', payload: e.target.value })} required/>
 
-      <label id='field' htmlFor='credit_card_no'>Credit card</label>
-      <input type='text' id='credit_card_no' name='credit_card_no' defaultValue={state.credit_card_no} onChange={(e) => dispatch({ type: 'SET_CREDIT_CARD', payload: e.target.value })} required/>
-      
-      <input id='create' type='submit' name='Update Profile' value='Update profile'/>
+      <label id='field5' htmlFor='credit_card_no'></label>
+      <input placeholder='Credit Card' type='text' id='input' name='credit_card_no' defaultValue={state.credit_card_no} onChange={(e) => dispatch({ type: 'SET_CREDIT_CARD', payload: e.target.value })} required/>
+      <label id='field5' htmlFor='Update Profile'></label>
+      <input id='customerupdatebutton' type='submit' name='Update Profile' value='Update profile'/>
     </form>
     
+    </div> 
   ) : (
     <p></p>
   )}
  
 </div> 
+
        
   );
 }

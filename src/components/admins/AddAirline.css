@@ -1,18 +1,14 @@
-#airlineupdateform1{
+#adminaddairlineform{
     display: grid;
     grid-template-columns: auto 1fr;
     grid-gap: 1px;
-    width: 300px;
     margin: 0 auto;
-    margin-left: -27px;
+    width: 20%;
+    margin-left: 560px;
 }
 
 
-#AIRLINE1{
-    height: 25px;
-    border-radius: 7px;
-    border: none;
-}
+
 
 
 #airlinefield1{
@@ -41,17 +37,10 @@
 
 #country1{
     color: aliceblue;
-    margin-top: 5px;
     padding-bottom: 30px;
 }
 
-#AIRLINEz1{
-    height: 25px;
-    border-radius: 7px;
-    border: none;
-    margin-top: 14px;
-    padding-top: 200px;  
-}
+
 
 
 #createairlinebutton{
@@ -60,33 +49,17 @@
     height: 35px;
     align-items: center;
     border-radius: 10px;
-    border-color: rgb(254, 254, 254);
+    margin-top: 5px;
     font-size: medium;
-    border-width: 0.2px;
+    border-width: 0.1px;
 }
 
 
-#adminaddairline{
-    background-color: #3498db;
-    border: none;
-    color: white;
-    padding: 5px 18px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 17px;
-    margin-top: 12px;
-    margin-left: -570px;
-    cursor: pointer;
-    font-weight: bolder;
-    border-radius: 5px;
-}
 
 
 #addairlinesuccess{
     color: white;
     font-size: medium;
-    margin-left: -570px;
 }
 
 
@@ -94,54 +67,14 @@
 #erroraddairline{
     font-size: medium;
     color: aliceblue;
-    margin-left: -600px;
 }
 
 
-
-#removeairlinebutton{
-    background-color: #d2655b;
+#inputfieldairline{
+    height: 25px;
+    border-radius: 7px;
     border: none;
-    color: white;
-    padding: 6.6px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 12px;
-    cursor: pointer;
-    font-weight: bolder;
-    border-radius: 5px;
-    margin-left: -570px;
-  }
+    margin-top: 5px;
+}
 
-
-
-  #airlineresults {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    border: 1px solid #a0cefd;
-    border-radius: 5px;
-    margin-left: -125px;
-    width: 500px;
-    padding: 5px;
-    background-color: #4b92b6;
-  }
-  
-  #airlineresults label {
-    margin-right: 13px;
-    font-weight: bold;
-    text-transform: capitalize;
-  }
-  
-  #airlineresults span {
-    font-style: italic;
-    margin-top: -5px;
-  }
-  
-  #airlinefield {
-    margin-top: -5px;
-    color: #f6e6d0;
-  }
   

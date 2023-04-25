@@ -1,12 +1,13 @@
-import React, { useState, useContext, useReducer, useEffect} from 'react'
+import React, { useState, useContext, useEffect} from 'react'
 import { AuthContext } from '../authentication/AuthContext';
 import GetCountries from '../countries/GetCountries';
 import Cookies from 'js-cookie';
 import moment from 'moment';
 import './UpdateFlightForm.css';
+
+
 function UpdateFlightForm(props) {
     const { flightId,
-            isUpdated,
             airlineId,
             onUpdate,
  } = props;
@@ -15,16 +16,13 @@ function UpdateFlightForm(props) {
     const { user, payloadData} = useContext(AuthContext);
     const [errors, setErrors] = useState('');
     const [message, setResponseMsg] = useState('');
-    const [airline, setAirlineId] = useState('');
     const [origin, setOriginCountryId] = useState('');
     const [destination, setDestinationCountryId] = useState('');
     const [departure, setDepartureTime] = useState('');
     const [landing, setLandingTime] = useState('');
     const [remaining, setRemainigTickets] = useState('');
-// const [airlineCompanyId, setAirlineCompanyId] = useState('');
-   
-    // console.log(origin);
-    // console.log(destination);
+
+
     const handleOriginCountrySelect = (countryId) => {
       setOriginCountryId(countryId);
     };
@@ -48,55 +46,71 @@ function UpdateFlightForm(props) {
       setRemainigTickets(event.target.value);
     };
 
-    const clearForm = () => {
-      document.getElementById("AddForm").reset();
-      setOriginCountryId("");
-      setDestinationCountryId("");
-      setDepartureTime("");
-      setLandingTime("");
-      setRemainigTickets("");
-      };
 
 
 
-    const fetchFlight = (flightId) =>{
-      if (user && payloadData && String(payloadData.roles) === "airline"){
-        fetch(`http://localhost:8000/api/flights/?update=${flightId}`,{
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${Cookies.get('token')}`,
-          },})
-        .then((response) => response.json())
-        .then(data => {
-            // console.log(data.destination_country_id);
-            // console.log(data.departure_time);
-            setAirlineId(data.airline_company_id);
-            setOriginCountryId(data.origin_country_id);
-            setDestinationCountryId(data.destination_country_id);
+    // const fetchFlight = (flightId) =>{
+    //   if (user && payloadData && String(payloadData.roles) === "airline"){
+    //     fetch(`http://localhost:8000/api/flights/?update=${flightId}`,{
+    //       method: 'GET',
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //         Authorization: `Bearer ${Cookies.get('token')}`,
+    //       },})
+    //     .then((response) => response.json())
+    //     .then(data => {
+    //         setOriginCountryId(data.origin_country_id);
+    //         setDestinationCountryId(data.destination_country_id);
 
-            // data.departure_time = moment.utc(data.departure_time).local().format('YYYY-MM-DDTHH:mm');
-            // data.landing_time = moment.utc(data.landing_time).local().format('YYYY-MM-DDTHH:mm');
-            setDepartureTime(moment.utc(data.departure_time).local().format('YYYY-MM-DDTHH:mm'));
-            setLandingTime(moment.utc(data.landing_time).local().format('YYYY-MM-DDTHH:mm'));
-            setRemainigTickets(data.remaining_tickets);
+    //         setDepartureTime(moment.utc(data.departure_time).local().format('YYYY-MM-DDTHH:mm'));
+    //         setLandingTime(moment.utc(data.landing_time).local().format('YYYY-MM-DDTHH:mm'));
+    //         setRemainigTickets(data.remaining_tickets);
         
-          })
-        .catch(error => {
-            console.error(error);
-          });
-        }
-    }
+    //       })
+    //     .catch(error => {
+    //         console.error(error);
+    //       });
+    //     }
+    // }
+
+    // useEffect(() => {
+    //   if (flightId) {
+    //     fetchFlight(flightId);
+    //   }
+    // }, [flightId]);
 
     useEffect(() => {
+      const fetchFlight = () =>{
+        if (user && payloadData && String(payloadData.roles) === "airline"){
+          fetch(`http://localhost:8000/api/flights/?update=${flightId}`,{
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${Cookies.get('token')}`,
+            },})
+          .then((response) => response.json())
+          .then(data => {
+              setOriginCountryId(data.origin_country_id);
+              setDestinationCountryId(data.destination_country_id);
+    
+              setDepartureTime(moment.utc(data.departure_time).local().format('YYYY-MM-DDTHH:mm'));
+              setLandingTime(moment.utc(data.landing_time).local().format('YYYY-MM-DDTHH:mm'));
+              setRemainigTickets(data.remaining_tickets);
+          
+            })
+          .catch(error => {
+              console.error(error);
+            });
+          }
+      }
+    
       if (flightId) {
         fetchFlight(flightId);
       }
-    }, [flightId]);
+    }, [flightId, user, payloadData, setOriginCountryId, setDestinationCountryId, setDepartureTime, setLandingTime, setRemainigTickets]);
+    
 
 
-      // console.log(departure);
-      // console.log(landing);
 
     const handleUpdate = async (event) => {
       onUpdate(false);
@@ -128,6 +142,7 @@ function UpdateFlightForm(props) {
             });
           } else if (response.status === 200) {
             console.log(response.status)
+            setErrors('');
             setResponseMsg("Flight updated successfully");
             onUpdate(true);
             setTimeout(() => {
@@ -205,9 +220,7 @@ function UpdateFlightForm(props) {
               <input id="tickets" type="number" defaultValue={remaining} onChange={handleRemainingTickets} required/>
             </label>
           </div>
-          {/* <button id='updatebutton' > */}
           <input id='updatebutton'  type='submit' name='Update Profile' value='Update'/>
-          {/* </button> */}
 
         </form>
       </div>

@@ -16,7 +16,7 @@ export const AddFlightForm = ({ onSuccess }) => {
     const [landingTime, setLandingTime] = useState('');
     const [remainingTickets, setRemainigTickets] = useState('');
     const [message, setResponseMsg] = useState('');
-    // console.log(onSuccess)
+
     const fetchAirlineId = () =>{
         if( user && payloadData && String(payloadData.roles === 'airline')){
             fetch(`http://localhost:8000/api/airlines/?user_id=${payloadData.user_id}`,{

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useReducer } from 'react';
+import React, { useState, useContext, useReducer } from 'react';
 import { AuthContext } from "../authentication/AuthContext";
 import Cookies from 'js-cookie';
 import GetCountries from '../countries/GetCountries';
@@ -40,8 +40,6 @@ function AddAirline() {
 
   const [errors, setErrors] = useState('');
   const [responseMsg, setResponseMsg] = useState('');
-  const [showForm, setShowForm] = useState(true);
-  const {reloadUpdatedData} = useContext(AuthContext);
 
 
   const handleSetCountry = (countryId) =>{
@@ -75,7 +73,7 @@ function AddAirline() {
         
         return response.json().then(data => {
           console.log(data);
-          if (data && !data.current_password && !data.password1 && !data.password2) {
+          if (data && (data.non_field_errors || data.username || data.email || data.address || data.name || data.password1 || data.password2 || data.country_id)) {
             setErrors(data);
             console.log("Errors exist");
             console.log(data);
@@ -83,13 +81,12 @@ function AddAirline() {
         });
       } else if (response.status === 201) {
         setErrors({});
-        setShowForm(false);
         
         setResponseMsg("Airline added successfully");
-        // setTimeout(() => {
-        //   setResponseMsg("");
-        //   window.location.href = '/';
-        // }, 3000);
+        setTimeout(() => {
+          setResponseMsg("");
+          window.location.href = '/';
+        }, 3000);
       }})
       .catch(error => {
         console.error(error);
@@ -110,27 +107,27 @@ function AddAirline() {
     <p id='addairlinesuccess'>{responseMsg}</p>
   </>
 )}
-  {showForm ? (
-    <form id='airlineupdateform1' onSubmit={(e) => handleAddAirline(e)}>
+ 
+    <form id='adminaddairlineform' onSubmit={(e) => handleAddAirline(e)}>
       <label id='airlinefield1' htmlFor="username"></label>
-      <input placeholder='Username' id='AIRLINE1' type="text" name="AIRLINE" defaultValue={state.username} onChange={(e) => dispatch({ type: 'SET_USERNAME', payload: e.target.value })} required/>
+      <input placeholder='Username' id='inputfieldairline' type="text" name="AIRLINE" defaultValue={state.username} onChange={(e) => dispatch({ type: 'SET_USERNAME', payload: e.target.value })} required/>
 
       <label id='airlinefield1' htmlFor='email'></label>
-      <input placeholder='Email' id='AIRLINE1' type='text'  name="AIRLINE" defaultValue={state.email} onChange={(e) => dispatch({ type: 'SET_EMAIL', payload: e.target.value })} required/>
+      <input placeholder='Email' id='inputfieldairline' type='text'  name="AIRLINE" defaultValue={state.email} onChange={(e) => dispatch({ type: 'SET_EMAIL', payload: e.target.value })} required/>
       
       <label id='new1' htmlFor='new_password'></label>
-      <input placeholder='Password' type='password' id='AIRLINE1' name='new_password' defaultValue={state.password1} onChange={(e) => dispatch({ type: 'SET_NEW_PASSWORD', payload: e.target.value })}/>
+      <input placeholder='Password' type='password' id='inputfieldairline' name='new_password' defaultValue={state.password1} onChange={(e) => dispatch({ type: 'SET_NEW_PASSWORD', payload: e.target.value })}/>
 
       <label id='confirm1' htmlFor='confirm_password'></label>
-      <input placeholder='Confirm password' type='password' id='AIRLINE1' name='confirm_password' defaultValue={state.password2} onChange={(e) => dispatch({ type: 'SET_CONFIRM_PASSWORD', payload: e.target.value })}/>
+      <input placeholder='Confirm password' type='password' id='inputfieldairline' name='confirm_password' defaultValue={state.password2} onChange={(e) => dispatch({ type: 'SET_CONFIRM_PASSWORD', payload: e.target.value })}/>
 
       <label id='namefield1' htmlFor='name'></label>
-      <input placeholder='Name' type='text' id='airlinename1' name='first_name' defaultValue={state.name} onChange={(e) => dispatch({ type: 'SET_NAME', payload: e.target.value })} required/>  
+      <input placeholder='Name' type='text' id='inputfieldairline' name='first_name' defaultValue={state.name} onChange={(e) => dispatch({ type: 'SET_NAME', payload: e.target.value })} required/>  
 
-<label id='country1' htmlFor='Country'></label>
-  <GetCountries onCountrySelect={handleSetCountry} selectedCountryId={state.country_id}  />
+<label  htmlFor='Country'></label>
+  <GetCountries id='country1' onCountrySelect={handleSetCountry} selectedCountryId={state.country_id}  />
   <p></p>
-  <input type='hidden' id='AIRLINEz1' name='country' 
+  <input type='hidden' id='country1' name='country' 
     onChange={(e) => {
       dispatch({ type: 'SET_COUNTRY', payload: e.target.value });
     }} 
@@ -138,10 +135,7 @@ function AddAirline() {
   /> 
       <input id='createairlinebutton' type='submit' name='Update Profile' value='Create profile'/>
     </form>
-    
-  ) : (
-    <p></p>
-  )}
+
  
 </div> 
        

@@ -1,10 +1,9 @@
-import React, { useState,useContext, useEffect } from "react";
+import React, { useState,useContext } from "react";
 import './Navbar.css';
 import Login from "../authentication/Login";
 import SignUp from "../authentication/SignUp";
 import FlightSearchForm from "../flights/FlightSearchForm";
 import { AuthContext } from "../authentication/AuthContext";
-import { Admin } from "../admins/Admin";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
 import { Home } from "./Home";
@@ -15,19 +14,16 @@ import { AddFlightForm } from "../flights/AddFlightForm";
 import MyTickets from "../customers/MyTickets";
 import { AllCustomers } from "../admins/AllCustomers";
 import { AllAirlines } from "../admins/AllAirlines";
+import { AllAdmins } from "../admins/AllAdmins";
 
 const Navbar = () => {
   
     const [activeComponent, setActiveComponent] = useState(null);
     const [activeComponent2, setActiveComponent2] = useState(null);
-    const [isLoggedIn, setIsLoggedIn] = useState(false); // Add a new state variable
     const {user, logout} = useContext(AuthContext);
-    const [showDropdown, setShowDropdown] = useState(false);
     const {payloadData, setRealodUpdatedData} = useContext(AuthContext);
     const [flightAdded, setFlightAdded] = useState(false);
     const [flightUpdated, setFlightUpdated] = useState(false);
-    const [removeCustomer, setRemoveCustomer] = useState(false);
-    const [removeAirline, setRemoveAirline] = useState(false);
 
 
     const handleLogout = () => {
@@ -54,7 +50,6 @@ const Navbar = () => {
 
     const handleLoginSuccess = () => {
       console.log("User logged in successfully.");  
-        setIsLoggedIn(true);
         setActiveComponent(null);
     };
 
@@ -66,7 +61,6 @@ const Navbar = () => {
 
     const handleCustomer = (event) => {
       event.preventDefault();
-      setShowDropdown(!showDropdown);
       setActiveComponent2('');
     };
 
@@ -106,23 +100,12 @@ const Navbar = () => {
       setActiveComponent("allairlines");
     };
 
-    const handleRemoveCustomer = () =>{
-      setRemoveCustomer(true);
+    const handleAllAdminsClick = (event) => {
+      event.preventDefault();
+      setActiveComponent("alladmins");
     };
 
-    const handleRemoveAirline = () =>{
-      setRemoveAirline(true);
-    };
 
-    useEffect(() => {
-      if ((removeCustomer === true) || (removeAirline === true)) {
-        setActiveComponent('')
-      }
-    }, [removeCustomer, removeAirline]);
-
-
-
-    
     return (
         <div>
             <nav>
@@ -131,9 +114,8 @@ const Navbar = () => {
 
 
           <span>
-          <Link id="main" to="/about" onClick={handleHome}>About us</Link>        
+          <Link id="main" to="/about" onClick={handleHome}>About us</Link> &nbsp;&nbsp;&nbsp;&nbsp;       
           <Link id="main" to="/flights" onClick={handleAllFlightsClick}>Flights</Link>
-          {/* <Link id="main" to="/airlines">Airlines</Link> */}
           {user && ( 
              <p id="logoutP"> <Link id="Logout" href="/" onClick={handleLogout}>
                 Logout
@@ -152,12 +134,10 @@ const Navbar = () => {
             </Link>
             </p>  
             <div className="dropdown">
-              {showDropdown && (
                 <div id="dropdown" className="dropdown-content">
                   <Link id="drop" to="/customerprofile" onClick={handleProfileClick}>Profile</Link>
                   <Link id="drop" to="/tickets" onClick={handleTicketsClick}>Tickets</Link>
                 </div>
-              )}
             </div>
             </div> 
           )}
@@ -174,14 +154,11 @@ const Navbar = () => {
             </Link>
             </p> 
             <div className="dropdown">
-              {showDropdown && (
                 <div id="dropdown" className="dropdown-content">
-                  <Link id="drop" to="/">Profile</Link>
-                  <Link id="drop" to="/">Admins</Link>
+                  <Link id="drop" to="/alladmins" onClick={handleAllAdminsClick}>Admins</Link>
                   <Link id="drop" to="/allairlines" onClick={handleAllAirlinesClick}>Airlines</Link>
                   <Link id="drop" to="/allcustomers" onClick={handleAllCustomersClick}>Customers</Link>
                 </div>
-              )}
             </div>
             </div>
           )}
@@ -198,12 +175,10 @@ const Navbar = () => {
             </Link>
             </p>  
             <div className="dropdown">
-              {showDropdown && (
                 <div id="dropdown" className="dropdown-content">
                   <Link id="drop" to="/airlineprofile" onClick={handleAirlineProfileClick}>Profile</Link>
                   <Link id="drop" to="/myflights" onClick={handleMyFlightsClick} >MyFlights </Link>
                 </div>
-              )}
             </div>
             </div>
           )}
@@ -240,12 +215,11 @@ const Navbar = () => {
             {activeComponent === "customerprofile" && <CustomerProfile/>}
             {activeComponent === "airlineprofile" && <AirlineProfile/>}
 
-            {activeComponent === "allcustomers" && <AllCustomers customerRemoved={handleRemoveCustomer} />}
-            {/* {removeCustomer === true &&  <AllCustomers customerRemoved={setRemoveCustomer} />} */}
+            {activeComponent === "allcustomers" && <AllCustomers  />}
             
-            {activeComponent === "allairlines" && <AllAirlines airlineRemoved={handleRemoveAirline} />}
-            {/* {removeAirline === true &&  <AllAirlines airlineRemoved={setRemoveAirline} />} */}
+            {activeComponent === "allairlines" && <AllAirlines />}
 
+            {activeComponent === "alladmins" && <AllAdmins />}
         </div>
     );
 };

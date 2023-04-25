@@ -1,0 +1,49 @@
+#customerupdateform{
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 1px;
+    /* width: 400px; */
+    margin: 0 auto;
+    width: 20%;
+}
+
+#field5{
+    padding: 7px;
+    
+}
+
+#input{
+    height: 25px;
+    border-radius: 7px;
+    border: none;
+    margin-top: 5px;
+}
+
+#customerupdatebutton{
+    background-color: #3498db;
+    border: none;
+    color: white;
+    height: 35px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 17px;
+    cursor: pointer;
+    font-weight: bolder;
+    border-radius: 5px
+}
+
+
+
+
+#updateprofilerror{
+    font-size: large;
+    color: aliceblue;
+}
+
+
+#updateprofilesuccess{
+    font-size: large;
+    font-weight: bolder;
+    color: aliceblue;
+}

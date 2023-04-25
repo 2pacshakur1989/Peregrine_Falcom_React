@@ -5,41 +5,43 @@ import GetCustomers from '../customers/GetCustomers';
 import AddCustomer from './AddCustomer';
 import './AllCustomers.css';
 
-export const AllCustomers = (props) => {
+export const AllCustomers = () => {
   const { user, payloadData } = useContext(AuthContext);
   const [customer, setCustomer] = useState(null);
   const [searchId, setSearchId] = useState('');
   const [message, setResponseMsg] = useState('');
   const [activeComponent, setActiveComponent] = useState('');
-  const { customerRemoved } = props;
 
-  // customerRemoved(false);
-
+  
   const handleAddClick = (event) => {
     event.preventDefault();
     setActiveComponent(activeComponent === 'addcustomer' ? '' : 'addcustomer');
   };
 
 
-
   const handleRemoveCustomer = ( customerId) => {
     
     if(customerId && user && payloadData && String(payloadData.roles) === 'admin'){
+
       fetch(`http://localhost:8000/api/customers/?id=${customerId}`,{
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${Cookies.get("token")}`,
         }})
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setResponseMsg('Customer deleted successfully');
-          setTimeout(() => {
-            setResponseMsg('');
-            customerRemoved();
-          }, 2000);
-          
+        .then(response => {
+          if (response.status === 401) {
+            setResponseMsg('This customer has an on going active ticket/s thus cannot be deleted.');
+            setTimeout(() => {
+              setResponseMsg('');
+            }, 3000);
+          } else if (response.status === 200) {
+            setResponseMsg('Customer deleted successfully');
+            setTimeout(() => {
+              setResponseMsg('');
+              window.location.href = '/';
+            }, 2000);
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -89,7 +91,7 @@ export const AllCustomers = (props) => {
 
 return (
   <div className="table-container">
-    <p id='removedsuccessfully'>{message}</p>
+    <p id='customerremovedsuccessfully'>{message}</p>
     <div>
     <button id='adminaddcustomer' onClick={handleAddClick}>
       {activeComponent === 'addcustomer' ? 'Hide' : 'Add customer'} 
@@ -97,7 +99,7 @@ return (
     {activeComponent === 'addcustomer' && <AddCustomer />}
   </div>
     <div id='searchcustomer'>
-      <input id='move'
+      <input id='customersearchid'
         type="text"
         value={searchId}
         onChange={(event) => setSearchId(event.target.value)}
@@ -112,33 +114,7 @@ return (
     </div>
     {customer && (
       <div>
-          <button id='removecustomerbutton' onClick={() => handleRemoveCustomer(customer.id)}>Remove Customer</button>
-
-      {/* <table id='result'>
-        <tbody>
-          <tr>
-            <td>Customer ID:</td>
-            <td>{customer.id}</td>
-          </tr>
-          <tr>
-            <td>Customer Name:</td>
-            <td>{customer.first_name} {customer.last_name}</td>
-          </tr>
-          <tr>
-            <td>Address:</td>
-            <td>{customer.address}</td>
-          </tr>
-          <tr>
-            <td>Phone Number:</td>
-            <td>{customer.phone_no}</td>
-          </tr>
-          <tr>
-            <td>User ID:</td>
-            <td>{customer.user_id}</td>
-          </tr>
-        </tbody>
-      </table> */}
-
+                  <button id='removecustomerbutton' onClick={() => handleRemoveCustomer(customer.id)}>Remove Customer</button>
         <p id='customeresults'>
           
             <label id='customerfield'>Customer ID:</label>

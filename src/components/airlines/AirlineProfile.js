@@ -152,35 +152,35 @@ function AirlineProfile() {
   </>
 )}
   {showForm ? (
-    <form id='airlineupdateform' onSubmit={(e) => handleUpdate(e)}>
-      <label id='airlinefield' htmlFor="username">Username</label>
-      <input id='AIRLINE' type="text" name="AIRLINE" defaultValue={state.username} onChange={(e) => dispatch({ type: 'SET_USERNAME', payload: e.target.value })} required/>
+    <form id='airlineprofile' onSubmit={(e) => handleUpdate(e)}>
+      <label htmlFor="username"></label>
+      <input placeholder='Username' id='inputfieldairlineprofile' type="text" name="AIRLINE" defaultValue={state.username} onChange={(e) => dispatch({ type: 'SET_USERNAME', payload: e.target.value })} required/>
 
-      <label id='airlinefield' htmlFor='email'>Email</label>
-      <input id='AIRLINE' type='text'  name="AIRLINE" defaultValue={state.email} onChange={(e) => dispatch({ type: 'SET_EMAIL', payload: e.target.value })} required/>
+      <label htmlFor='email'></label>
+      <input placeholder='Email' id='inputfieldairlineprofile' type='text'  name="#1" defaultValue={state.email} onChange={(e) => dispatch({ type: 'SET_EMAIL', payload: e.target.value })} required/>
 
-      <label id='current' htmlFor='current_password'>Current Password</label>
-      <input type='password' id='AIRLINE' name='current_password' defaultValue={state.current_password} onChange={(e) => dispatch({ type: 'SET_CURRENT_PASSWORD', payload: e.target.value })}/>
+      <label htmlFor='current_password'></label>
+      <input placeholder='Current password' type='password' id='inputfieldairlineprofile'  name='current_password' defaultValue={state.current_password} onChange={(e) => dispatch({ type: 'SET_CURRENT_PASSWORD', payload: e.target.value })}/>
       
-      <label id='new' htmlFor='new_password'>New password</label>
-      <input type='password' id='AIRLINE' name='new_password' defaultValue={state.password1} onChange={(e) => dispatch({ type: 'SET_NEW_PASSWORD', payload: e.target.value })}/>
+      <label  htmlFor='new_password'></label>
+      <input placeholder='New password' type='password' id='inputfieldairlineprofile'  name='new_password' defaultValue={state.password1} onChange={(e) => dispatch({ type: 'SET_NEW_PASSWORD', payload: e.target.value })}/>
 
-      <label id='confirm' htmlFor='confirm_password'>Confirm password</label>
-      <input type='password' id='AIRLINE' name='confirm_password' defaultValue={state.password2} onChange={(e) => dispatch({ type: 'SET_CONFIRM_PASSWORD', payload: e.target.value })}/>
+      <label  htmlFor='confirm_password'></label>
+      <input placeholder='Confirm password' type='password' id='inputfieldairlineprofile'  name='confirm_password' defaultValue={state.password2} onChange={(e) => dispatch({ type: 'SET_CONFIRM_PASSWORD', payload: e.target.value })}/>
 
-      <label id='namefield' htmlFor='name'>Name</label>
-      <input type='text' id='airlinename' name='first_name' defaultValue={state.name} onChange={(e) => dispatch({ type: 'SET_NAME', payload: e.target.value })} required/>  
+      <label  htmlFor='name'></label>
+      <input placeholder='Name' type='text' id='inputfieldairlineprofile2'  name='first_name' defaultValue={state.name} onChange={(e) => dispatch({ type: 'SET_NAME', payload: e.target.value })} required/>  
 
-<label id='country' htmlFor='Country'>Country</label>
-  <GetCountries onCountrySelect={handleSetCountry} selectedCountryId={state.country_id}  />
+<label id='name123' htmlFor='Country'></label>
+  <GetCountries   onCountrySelect={handleSetCountry} selectedCountryId={state.country_id}  />
   <p></p>
-  <input type='hidden' id='AIRLINEz' name='country' 
+  <input type='hidden' id='inputfieldairlineprofile3' name='country' 
     onChange={(e) => {
       dispatch({ type: 'SET_COUNTRY', payload: e.target.value });
     }} 
     required
   /> 
-      <input id='create' type='submit' name='Update Profile' value='Update profile'/>
+      <input id='airlineupdateprofile' type='submit' name='Update Profile' value='Update profile'/>
     </form>
     
   ) : (

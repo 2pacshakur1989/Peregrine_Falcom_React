@@ -18,8 +18,6 @@ const GetCustomers = ({ onCustomerSelect }) => {
       });
       const data = await response.json();
       setCustomers(data);
-      console.log(data);
-      console.log(customers);
     }}
 
     fetchCustomers();

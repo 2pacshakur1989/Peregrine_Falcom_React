@@ -1,19 +1,11 @@
 #result{
-  margin-left: -35px;
   font-weight: bold;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   color: rgb(0, 0, 0);
   border: 10px;
 }
 
-#searchcustomer{
-  margin-left: -580px;
-}
 
-#selectcustomer{
-  margin-left: -570px;
-  font-size: larger;
-}
 
 #customersearchbutton{
   background-color: #3498db;
@@ -24,56 +16,30 @@
   text-decoration: none;
   display: inline-block;
   font-size: 17px;
-  margin-top: 12px;
-  margin-left: 2px;
   cursor: pointer;
   font-weight: bolder;
   border-radius: 5px;
   width: 120px;
 }
 
-#move{
-  margin-top: 20px;
+#customersearchid{
+  margin-top: 21px;
   font-size: medium;
   width: 120px;
-  height: 26px;
-  margin-left: 4px;
-}
-
-
-
-.table-container {
-  margin-left: 600px;
-  border-collapse: collapse; 
-  
-}
-
-.table-container td,
-.table-container th {
-  
-  padding: 12px 15px;
+  height: 27px;
   border: none;
-  background-color: #4d9fd5;
-  border-radius: 2px;
-  text-align: center;
-}
-
-.table-container tbody {
-  border-radius: 8px;
-
-  background-color: #f2f2f2;
+  border-radius: 5px;
 }
 
 
-#removedsuccessfully{
+
+
+
+
+#customerremovedsuccessfully{
   color: white;
   font-size: medium;
-  margin-left: -570px;
 }
-
-
-
-
 
 
 
@@ -89,7 +55,6 @@
   cursor: pointer;
   font-weight: bolder;
   border-radius: 5px;
-  margin-left: -570px;
 }
 
 
@@ -103,7 +68,6 @@
   display: inline-block;
   font-size: 17px;
   margin-top: 12px;
-  margin-left: -570px;
   cursor: pointer;
   font-weight: bolder;
   border-radius: 5px;
@@ -117,13 +81,10 @@
   align-items: center;
   border: 1px solid #a0cefd;
   border-radius: 5px;
-  margin-left: -600px;
-  padding: 5px;
   background-color: #4b92b6;
 }
 
 #customeresults label {
-  margin-right: 10px;
   font-weight: bold;
   text-transform: capitalize;
 }

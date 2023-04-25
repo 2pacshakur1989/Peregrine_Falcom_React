@@ -14,7 +14,6 @@ export default function AddCustomer() {
   const [credit_card_no, setCreditCard] = useState('');
   const [errors, setErrors] = useState('');
   const [responseMsg, setResponseMsg] = useState('');
-  const [showForm, setShowForm] = useState(true);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -28,14 +27,13 @@ export default function AddCustomer() {
     .then(response => {
       if (response.status === 400) {
         return response.json().then(data => {
-          if (data && (data.non_field_errors || data.username || data.credit_card_no || data.phone_no || data.email)) {
+          if (data && (data.non_field_errors || data.username || data.credit_card_no || data.phone_no || data.email || data.address || data.first_name || data.last_name || data.password1 || data.password2)) {
             setErrors(data);
             console.log("Errors exist");
             console.log(data);
           }
         });
       } else if (response.status === 201) {
-        // setShowForm(false);
         setResponseMsg("Customer created successfully");
         setTimeout(() => {
           setResponseMsg("");
@@ -102,34 +100,30 @@ export default function AddCustomer() {
   </>
 )}
 
-
-  {showForm ? (
     <form id='addcustomerform' onSubmit={handleSubmit}>
       <label id='field2' htmlFor="username"></label>
-      <input type="text" name="username" placeholder='Username' value={username} onChange={handleUserNameChange} required/>
+      <input id='inputfielcustomer' type="text" name="username" placeholder='Username' value={username} onChange={handleUserNameChange} required/>
       <label id='field2' htmlFor='email'></label>
-      <input type='text' name="email" placeholder='Email' value={email} onChange={handleEmailChange} required/>
+      <input id='inputfielcustomer' type='text' name="email" placeholder='Email' value={email} onChange={handleEmailChange} required/>
       <label id='field2' htmlFor='password1'></label>
-      <input type='password' id='password1' name='password1' placeholder='Password' value={password1} onChange={handlePassword1Change} required/>
+      <input id='inputfielcustomer' type='password' name='password1' placeholder='Password' value={password1} onChange={handlePassword1Change} required/>
       <label id='field2' htmlFor='password2'></label>
-      <input type='password' id='password2' name='password2' placeholder='Confirm password' value={password2} onChange={handlePassword2Change} required/>
+      <input id='inputfielcustomer' type='password' name='password2' placeholder='Confirm password' value={password2} onChange={handlePassword2Change} required/>
       <label id='field2' htmlFor='first_name'></label>
-      <input type='text' id='first_name' name='first_name' placeholder='First name' value={first_name} onChange={handleFirstNameChange} required/>
+      <input id='inputfielcustomer' type='text' name='first_name' placeholder='First name' value={first_name} onChange={handleFirstNameChange} required/>
       <label id='field2' htmlFor='last_name'></label>
-      <input type='text' id='last_name' name='last_name' placeholder='Last name' value={last_name} onChange={handleLastNameChange} required/>
+      <input id='inputfielcustomer' type='text' name='last_name' placeholder='Last name' value={last_name} onChange={handleLastNameChange} required/>
       <label id='field2' htmlFor='address'></label>
-      <input type='text' id='address' name='address' placeholder='Address' value={address} onChange={handleAddressChange} required/>
+      <input id='inputfielcustomer' type='text' name='address' placeholder='Address' value={address} onChange={handleAddressChange} required/>
       <label id='field2' htmlFor='phone_no'></label>
-      <input type='text' id='phone_no' name='phone_no' placeholder='Phone number' value={phone_no} onChange={handlePhoneNumberChange} required/>
+      <input id='inputfielcustomer' type='text'  name='phone_no' placeholder='Phone number' value={phone_no} onChange={handlePhoneNumberChange} required/>
       <label id='field2' htmlFor='credit_card_no'></label>
-      <input type='text' id='credit_card_no' name='credit_card_no' placeholder='Credit card number' value={credit_card_no} onChange={handleCreditCardChange} required/>
-      <label id='field2' htmlFor='sybut'></label>
+      <input id='inputfielcustomer' type='text'  name='credit_card_no' placeholder='Credit card number' value={credit_card_no} onChange={handleCreditCardChange} required/>
+      <label id='field2' htmlFor='Create profile'></label>
       <input id='createcustomerbutton' type='submit' name='Create Profile' value='Create profile'/>
     </form>
-    
-  ) : (
-    <p></p>
-  )}
+
+  
 </div> 
   )
 }

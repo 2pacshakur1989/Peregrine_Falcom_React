@@ -1,4 +1,3 @@
-import { AuthContext } from "./components/authentication/AuthContext";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from './components/authentication/Login';
 import SignUp from './components/authentication/SignUp';
@@ -24,7 +23,6 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/flights" element={<FlightSearchForm />} />
             <Route path="/customer" element={<UpdateCustomer />} />
-            {/* <Route path="/" element={<Logout />} /> */}
           </Routes>
         </Router>
     </div>
