@@ -2,7 +2,8 @@ import React from 'react'
 import { useState } from 'react'
 import './SignUp.css';
 import { ToolTip } from '../general/ToolTip';
-import { Helmet } from 'react-helmet';
+// import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 export default function SignUp() {
   const [username, setUserName] = useState('');
@@ -89,6 +90,7 @@ export default function SignUp() {
 
 
   return (
+  <HelmetProvider>
 <div>
 <Helmet>
         <link
@@ -146,47 +148,47 @@ export default function SignUp() {
 <form id='signupform' onSubmit={handleSubmit}>
 
 <input placeholder='Username' id='inputfield' type="text" name="username" value={username} onChange={handleUserNameChange} required/>
-{ <ToolTip text={"Username should contain 8-20 characters, English letters and number only"}><span id='tooltiplacement' class="material-symbols-outlined">
+{ <ToolTip text={"Username should contain 8-20 characters, English letters and number only"}><span id='tooltiplacement' className="material-symbols-outlined">
 Help
 </span></ToolTip>}
 
 <input placeholder='Email' id='inputfield' type='text'  name="email" value={email} onChange={handleEmailChange} required/>
-{ <ToolTip text={"Make sure the email is valid"}><span id='tooltiplacement' class="material-symbols-outlined">
+{ <ToolTip text={"Make sure the email is valid"}><span id='tooltiplacement' className="material-symbols-outlined">
 Help
 </span></ToolTip>}
 
 <input placeholder='Password' type='password' id='inputfield' name='password1' value={password1} onChange={handlePassword1Change} required/>
-{ <ToolTip text={"Passowrd should contain 8-30 characters, English letters(Upper/lower) and numbers only"}><span id='tooltiplacement' class="material-symbols-outlined">
+{ <ToolTip text={"Passowrd should contain 8-30 characters, English letters(Upper/lower) and numbers only"}><span id='tooltiplacement' className="material-symbols-outlined">
 Help
 </span></ToolTip>}
 
 <input placeholder='Confirm password' type='password' id='inputfield' name='password2' value={password2} onChange={handlePassword2Change} required/>
-{ <ToolTip text={"Confirm passowrd"}><span id='tooltiplacement' class="material-symbols-outlined">
+{ <ToolTip text={"Confirm passowrd"}><span id='tooltiplacement' className="material-symbols-outlined">
 Help
 </span></ToolTip>}
 
 <input placeholder='First name' type='text' id='inputfield' name='first_name' value={first_name} onChange={handleFirstNameChange} required/>
-{ <ToolTip text={"English letters only, no shorter than 3 letters"}><span id='tooltiplacement' class="material-symbols-outlined">
+{ <ToolTip text={"English letters only, no shorter than 3 letters"}><span id='tooltiplacement' className="material-symbols-outlined">
 Help
 </span></ToolTip>}
 
 <input placeholder='Last name' type='text' id='inputfield' name='last_name' value={last_name} onChange={handleLastNameChange} required/>
-{ <ToolTip text={"English letters only, no shorter than 3 letters"}><span id='tooltiplacement' class="material-symbols-outlined">
+{ <ToolTip text={"English letters only, no shorter than 3 letters"}><span id='tooltiplacement' className="material-symbols-outlined">
 Help
 </span></ToolTip>}
 
 <input placeholder='Address' type='text' id='inputfield' name='address' value={address} onChange={handleAddressChange} required/>
-{ <ToolTip text={"English letters numbers, and dots only"}><span id='tooltiplacement' class="material-symbols-outlined">
+{ <ToolTip text={"English letters numbers, and dots only"}><span id='tooltiplacement' className="material-symbols-outlined">
 Help
 </span></ToolTip>}
 
 <input placeholder='Phone number'type='text' id='inputfield' name='phone_no' value={phone_no} onChange={handlePhoneNumberChange} required/>
-{ <ToolTip text={"Phone number can contain numbers and '-' character"}><span id='tooltiplacement' class="material-symbols-outlined">
+{ <ToolTip text={"Phone number can contain numbers and '-' character"}><span id='tooltiplacement' className="material-symbols-outlined">
 Help
 </span></ToolTip>}
 
 <input placeholder='Credit card' type='text' id='inputfield' name='credit_card_no' value={credit_card_no} onChange={handleCreditCardChange} required/>
-{ <ToolTip text={"credit card can contain numbers and '-' character, 12-20 characters long"}><span id='tooltiplacement' class="material-symbols-outlined">
+{ <ToolTip text={"credit card can contain numbers and '-' character, 12-20 characters long"}><span id='tooltiplacement' className="material-symbols-outlined">
 Help
 </span></ToolTip>}
 
@@ -199,5 +201,6 @@ Help
     <p></p>
   )}
 </div> 
+</HelmetProvider>
   )
 }

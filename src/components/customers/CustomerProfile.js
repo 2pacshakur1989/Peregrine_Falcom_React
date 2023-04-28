@@ -53,7 +53,6 @@ function CustomerProfile() {
   const [responseMsg, setResponseMsg] = useState('');
   const [showForm, setShowForm] = useState(true);
   const {reloadUpdatedData} = useContext(AuthContext);
-  const { storePayloadData } = useContext(AuthContext);
 
   useEffect(() => {
     // make API request to get customer data
