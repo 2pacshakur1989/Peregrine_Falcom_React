@@ -1,8 +1,8 @@
 import React from 'react'
 import { useState } from 'react'
-import '.SignUp.css';
 import { ToolTip } from '../general/ToolTip';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
+import './SignUp.css'
 
 export default function SignUp() {
   const [username, setUserName] = useState('');
