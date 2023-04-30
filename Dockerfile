@@ -1,13 +1,42 @@
-FROM node:14-alpine
+# FROM node:14-alpine
 
-WORKDIR /peregrine-react-app
+# WORKDIR /app
 
-COPY package*.json ./
+# COPY peregrine-app-try/package*.json ./
 
-RUN npm install
+# RUN npm install
 
-COPY . .
+# COPY peregrine-app-try .
 
-RUN npm run build
+# RUN npm run build
 
-CMD ["npm", "start"]
+# EXPOSE 3000
+
+# CMD ["npm", "start"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# FROM node:14-alpine
+
+# WORKDIR /app
+
+# COPY package*.json ./
+
+# RUN npm install
+
+# COPY . .
+
+# RUN npm run build
+
+# CMD ["npm", "start"]

@@ -1,8 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
-import './SignUp.css';
+import '.SignUp.css';
 import { ToolTip } from '../general/ToolTip';
-// import { Helmet } from 'react-helmet';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 export default function SignUp() {
