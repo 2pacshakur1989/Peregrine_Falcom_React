@@ -1,42 +1,17 @@
-# FROM node:14-alpine
+# Use an official Node.js runtime as a parent image
+FROM node:14.18.3
 
-# WORKDIR /app
+# Set the working directory to /frontend
+WORKDIR /peregrine-app-try
 
-# COPY peregrine-app-try/package*.json ./
+# Copy the current directory contents into the container at /frontend
+COPY . /peregrine-app-try
 
-# RUN npm install
+# Install any needed packages
+RUN npm install
 
-# COPY peregrine-app-try .
+# Make port 3000 available to the world outside this container
+EXPOSE 3000
 
-# RUN npm run build
-
-# EXPOSE 3000
-
-# CMD ["npm", "start"]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# FROM node:14-alpine
-
-# WORKDIR /app
-
-# COPY package*.json ./
-
-# RUN npm install
-
-# COPY . .
-
-# RUN npm run build
-
-# CMD ["npm", "start"]
+# Run the app
+CMD ["npm", "start"]
